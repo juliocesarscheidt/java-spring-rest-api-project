@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.github.juliocesarscheidt.entity.Customer;
 import com.github.juliocesarscheidt.exception.BadRequestException;
@@ -15,6 +17,8 @@ import com.github.juliocesarscheidt.repository.CustomerRepository;
 public class CustomerService {
   @Autowired
   CustomerRepository repository;
+
+  private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
   public Customer findOne(Long id) throws Exception {
     Customer customer = repository.findById(id)
@@ -29,7 +33,7 @@ public class CustomerService {
       return customers;
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -46,7 +50,7 @@ public class CustomerService {
       return repository.save(customer);
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -72,7 +76,7 @@ public class CustomerService {
       return repository.save(entity);
 
     }  catch (Exception e) {
-      System.out.println(e.getMessage());
+      logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -85,7 +89,7 @@ public class CustomerService {
       repository.delete(entity);
 
     } catch (Exception e) {
-      System.out.println(e.getMessage());
+      logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
