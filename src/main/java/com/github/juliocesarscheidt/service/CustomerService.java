@@ -29,6 +29,7 @@ public class CustomerService {
       return customers;
 
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -45,6 +46,7 @@ public class CustomerService {
       return repository.save(customer);
 
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -69,7 +71,8 @@ public class CustomerService {
     try {
       return repository.save(entity);
 
-    } catch (Exception e) {
+    }  catch (Exception e) {
+      System.out.println(e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
@@ -82,6 +85,7 @@ public class CustomerService {
       repository.delete(entity);
 
     } catch (Exception e) {
+      System.out.println(e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }

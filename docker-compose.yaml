@@ -3,21 +3,24 @@ version: '3.4'
 services:
   mysql:
     container_name: mysql
+    hostname: mysql
     image: mysql:8.0
-    ports:
-      - '0.0.0.0:3306:3306'
-    environment:
-      MYSQL_ROOT_PASSWORD: admin
-      MYSQL_DATABASE: spring_rest_api_database
-      MYSQL_ROOT_HOST: "%"
+    restart: on-failure
     networks:
       - subnet_0
-    restart: on-failure
+    ports:
+      - '3336:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: ${JDBC_PASS}
+      MYSQL_DATABASE: ${JDBC_DATABASE}
+      MYSQL_ROOT_HOST: "%"
     volumes:
       - mysql-volume:/var/lib/mysql
 
   api:
     container_name: api
+    hostname: api
+    image: juliocesarmidia/java-spring-rest-api:latest
     build:
       context: ./
     restart: on-failure
@@ -27,6 +30,11 @@ services:
       - 8000:8080
     environment:
       JAVA_OPTIONS: -Xmx400m
+      JDBC_HOST: ${JDBC_HOST}
+      JDBC_PORT: ${JDBC_PORT}
+      JDBC_USER: ${JDBC_USER}
+      JDBC_PASS: ${JDBC_PASS}
+      JDBC_DATABASE: ${JDBC_DATABASE}
 
 networks:
   subnet_0:

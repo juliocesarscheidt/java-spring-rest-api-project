@@ -1,15 +1,18 @@
 # Java Spring REST API Project
 
-This project is a test with Spring Boot, Maven and Java, running everything inside docker containers.
+![Build PR](https://github.com/juliocesarscheidt/java-spring-rest-api-project/actions/workflows/build_pr.yml/badge.svg)
+![Build Push](https://github.com/juliocesarscheidt/java-spring-rest-api-project/actions/workflows/build_push.yml/badge.svg)
+
+This project is a tiny API made with Spring Boot, Maven and Java, running everything inside docker containers.
 
 ## Up and Running
 
 ```bash
 docker-compose up -d mysql
-docker-compose logs -f mysql
+docker-compose logs -f --tail=50 mysql
 
 docker-compose up -d --build api
-docker-compose logs -f api
+docker-compose logs -f --tail=50 api
 ```
 
 ## Usage
@@ -18,18 +21,18 @@ docker-compose logs -f api
 
 ```bash
 # create
-curl -X POST \
+curl --silent -X POST \
   -H 'content-type: application/json' \
   --data '{"firstName": "CUSTOMER", "lastName": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/api/customer'
 # {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}
 
 # get all
-curl -X GET --url 'http://localhost:8000/api/customer'
+curl --silent -X GET --url 'http://localhost:8000/api/customer'
 # [{"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}]
 
 # get by ID
-curl -X GET --url 'http://localhost:8000/api/customer/1'
+curl --silent -X GET --url 'http://localhost:8000/api/customer/1'
 # {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}
 
 # check on Database
@@ -42,13 +45,13 @@ docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
 # +----+---------+-------------------+------------+--------+-----------+
 
 # update
-curl -X PUT \
+curl --silent -X PUT \
   -H 'content-type: application/json' \
   --data '{"firstName": "CUSTOMER_CHANGED", "lastName": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/api/customer/1'
 # {"id":1,"firstName":"CUSTOMER_CHANGED","lastName":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male"}
 
 # delete
-curl -X DELETE -I --url 'http://localhost:8000/api/customer/1'
+curl --silent -X DELETE -I --url 'http://localhost:8000/api/customer/1'
 # HTTP/1.1 204
 ```
