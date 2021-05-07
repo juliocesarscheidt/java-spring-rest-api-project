@@ -1,4 +1,4 @@
-package com.github.juliocesarscheidt.entity;
+package com.github.juliocesarscheidt.data.entity;
 
 import java.io.Serializable;
 
@@ -144,7 +144,7 @@ public class Customer implements Serializable {
 
   @Override
   public String toString() {
-    return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", address=" + address
-      + ", gender=" + gender + "]";
+    return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
+      + ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
   }
 }

@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'REST API with SpringBoot'
+  description: 'Simple customers API - Specification'
+
+paths:
+  /api/v1/customer:
+    get:
+      tags:
+      - "Customer"
+      summary: Get all Customers
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customers'
+        500:
+          description: Internal Server Error
+
+    post:
+      tags:
+      - "Customer"
+      summary: Create an Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer_payload'
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        500:
+          description: Internal Server Error
+
+  /api/v1/customer/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Customer ID
+        required: true
+        schema:
+          type: number
+          example: 1
+
+    get:
+      tags:
+      - "Customer"
+      summary: Get an Customer
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        404:
+          description: Not Found
+        500:
+          description: Internal Server Error
+
+    delete:
+      tags:
+      - "Customer"
+      summary: Delete an Customer
+      responses:
+        204:
+          description: No Content
+        500:
+          description: Internal Server Error
+
+    put:
+      tags:
+      - "Customer"
+      summary: Update an Customer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/customer_payload'
+      responses:
+        202:
+          description: Accepted
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/customer'
+        500:
+          description: Internal Server Error
+
+components:
+  schemas:
+    customers:
+      type: array
+      items:
+        $ref: '#/components/schemas/customer'
+
+    customer:
+      allOf:
+        - type: object
+          properties:
+            id: 
+              type: number
+              example: 1
+        - $ref: '#/components/schemas/customer_payload'
+      
+    customer_payload:
+      type: object
+      required:
+        - firstName
+        - lastName
+        - email
+        - address
+        - gender
+      properties:
+        firstName:
+          type: string
+          example: "first name"
+        lastName:
+          type: string
+          example: "last name"
+        email:
+          type: string
+          example: "customer@mail.com"
+        address:
+          type: string
+          example: "address"
+        gender:
+          type: string
+          enum: ["Male", "Female"]
+          example: "Male"

@@ -2,8 +2,13 @@ package com.github.juliocesarscheidt.resource;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,60 +19,71 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.juliocesarscheidt.entity.Customer;
-import com.github.juliocesarscheidt.exception.BadRequestException;
+import com.github.juliocesarscheidt.data.dto.CustomerDTO;
+import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.service.CustomerService;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/api/v1/customer")
 public class CustomerResource {
-
-  private String numberRE = "^[0-9]+$";
 
   @Autowired
   private CustomerService customerService;
+  
+  private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
-  // GET /api/customer
+  private void addLinkTo(CustomerDTO dto, Long id) {
+	  	try {
+	  		dto.add(linkTo(methodOn(CustomerResource.class).findOne(id)).withSelfRel());
+			
+		} catch (Exception e) {
+			logger.error("Error caught " + e.getMessage());
+			throw new ServerErrorException("Internal Server Error");
+		}
+  }
+
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  public List<Customer> find() throws Exception {
-    List<Customer> customers = customerService.find();
+  public List<CustomerDTO> find() throws Exception { 
+    List<CustomerDTO> customers = customerService.find();
+    customers.stream()
+    	.forEach(cust -> addLinkTo(cust, cust.getUniqueId()));
+    
     return customers;
   }
-
-  // GET /api/customer/:id
-  @GetMapping("/{id}")
-  @ResponseStatus(code = HttpStatus.OK)
-  public Customer findOne(@PathVariable("id") Long id) throws Exception {
-    if (! id.toString().matches(this.numberRE)) {
-      throw new BadRequestException("Invalid Customer ID");
-    }
-    return customerService.findOne(id);
-  }
-
+  
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  public Customer create(@RequestBody Customer customer) throws Exception {
-    return customerService.create(customer);
+  public CustomerDTO create(@RequestBody CustomerDTO customer) throws Exception {
+	CustomerDTO dto = customerService.create(customer);
+	addLinkTo(dto, dto.getUniqueId());
+ 	
+    return dto;
   }
 
-  // PUT /api/customer/:id {}
+  @GetMapping("/{id}")
+  @ResponseStatus(code = HttpStatus.OK)
+  public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
+	CustomerDTO dto = customerService.findOne(id);
+	addLinkTo(dto, id);
+	
+    return dto;
+  }
+
   @PutMapping("/{id}")
   @ResponseStatus(code = HttpStatus.ACCEPTED)
-  public Customer update(@PathVariable("id") Long id, @RequestBody Customer customer) throws Exception {
-    if (! id.toString().matches(this.numberRE)) {
-      throw new BadRequestException("Invalid Customer ID");
-    }
-    return customerService.update(id, customer);
+  public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
+	CustomerDTO dto = customerService.update(id, customer);
+	addLinkTo(dto, id);
+	
+	return dto;
   }
 
-  // DELETE /api/customer/:id
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable("id") Long id) throws Exception {
-    if (! id.toString().matches(this.numberRE)) {
-      throw new BadRequestException("Invalid Customer ID");
-    }
+  public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
     customerService.delete(id);
+    
+    return ResponseEntity.noContent().build();
   }
 }
