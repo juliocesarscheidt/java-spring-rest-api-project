@@ -11,14 +11,19 @@ import com.github.dozermapper.core.Mapping;
 @JsonPropertyOrder({"id", "firstName", "lastName", "email", "address", "gender"})
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
   private static final long serialVersionUID = 1L;
-  
+
   @Mapping("id")
   @JsonProperty("id")
   private Long uniqueId;
+
   private String firstName;
+
   private String lastName;
+
   private String email;
+
   private String address;
+
   private String gender;
 
   // constructor
@@ -72,20 +77,20 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
   public void setGender(String gender) {
     this.gender = gender;
   }
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
-		result = prime * result + ((gender == null) ? 0 : gender.hashCode());
-		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
-		return result;
-	}
-	
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = super.hashCode();
+    result = prime * result + ((address == null) ? 0 : address.hashCode());
+    result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+    result = prime * result + ((gender == null) ? 0 : gender.hashCode());
+    result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+    result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+    return result;
+  }
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -131,6 +136,6 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
 	@Override
 	public String toString() {
 		return "CustomerDTO [uniqueId=" + uniqueId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-				+ email + ", address=" + address + ", gender=" + gender + "]";
+      + email + ", address=" + address + ", gender=" + gender + "]";
 	}
 }

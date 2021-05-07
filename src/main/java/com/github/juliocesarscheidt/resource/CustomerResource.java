@@ -29,61 +29,61 @@ public class CustomerResource {
 
   @Autowired
   private CustomerService customerService;
-  
+
   private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
   private void addLinkTo(CustomerDTO dto, Long id) {
-	  	try {
-	  		dto.add(linkTo(methodOn(CustomerResource.class).findOne(id)).withSelfRel());
-			
-		} catch (Exception e) {
-			logger.error("Error caught " + e.getMessage());
-			throw new ServerErrorException("Internal Server Error");
-		}
+    try {
+      dto.add(linkTo(methodOn(CustomerResource.class).findOne(id)).withSelfRel());
+
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
   }
 
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  public List<CustomerDTO> find() throws Exception { 
+  public List<CustomerDTO> find() throws Exception {
     List<CustomerDTO> customers = customerService.find();
     customers.stream()
-    	.forEach(cust -> addLinkTo(cust, cust.getUniqueId()));
-    
+      .forEach(cust -> addLinkTo(cust, cust.getUniqueId()));
+
     return customers;
   }
-  
+
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public CustomerDTO create(@RequestBody CustomerDTO customer) throws Exception {
-	CustomerDTO dto = customerService.create(customer);
-	addLinkTo(dto, dto.getUniqueId());
- 	
+    CustomerDTO dto = customerService.create(customer);
+    addLinkTo(dto, dto.getUniqueId());
+
     return dto;
   }
 
   @GetMapping("/{id}")
   @ResponseStatus(code = HttpStatus.OK)
   public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
-	CustomerDTO dto = customerService.findOne(id);
-	addLinkTo(dto, id);
-	
+    CustomerDTO dto = customerService.findOne(id);
+    addLinkTo(dto, id);
+
     return dto;
   }
 
   @PutMapping("/{id}")
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
-	CustomerDTO dto = customerService.update(id, customer);
-	addLinkTo(dto, id);
-	
-	return dto;
+    CustomerDTO dto = customerService.update(id, customer);
+    addLinkTo(dto, id);
+
+    return dto;
   }
 
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
     customerService.delete(id);
-    
+
     return ResponseEntity.noContent().build();
   }
 }

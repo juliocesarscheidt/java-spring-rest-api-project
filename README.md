@@ -24,16 +24,16 @@ docker-compose logs -f --tail=50 api
 curl --silent -X POST \
   -H 'content-type: application/json' \
   --data '{"firstName": "CUSTOMER", "lastName": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
-  --url 'http://localhost:8000/api/customer'
-# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}
+  --url 'http://localhost:8000/api/v1/customer'
+# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # get all
-curl --silent -X GET --url 'http://localhost:8000/api/customer'
-# [{"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}]
+curl --silent -X GET --url 'http://localhost:8000/api/v1/customer'
+# [{"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/api/v1/customer/1"}]}]
 
 # get by ID
-curl --silent -X GET --url 'http://localhost:8000/api/customer/1'
-# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male"}
+curl --silent -X GET --url 'http://localhost:8000/api/v1/customer/1'
+# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # check on Database
 docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
@@ -48,10 +48,10 @@ docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
 curl --silent -X PUT \
   -H 'content-type: application/json' \
   --data '{"firstName": "CUSTOMER_CHANGED", "lastName": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
-  --url 'http://localhost:8000/api/customer/1'
-# {"id":1,"firstName":"CUSTOMER_CHANGED","lastName":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male"}
+  --url 'http://localhost:8000/api/v1/customer/1'
+# {"id":1,"firstName":"CUSTOMER_CHANGED","lastName":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # delete
-curl --silent -X DELETE -I --url 'http://localhost:8000/api/customer/1'
+curl --silent -X DELETE -I --url 'http://localhost:8000/api/v1/customer/1'
 # HTTP/1.1 204
 ```

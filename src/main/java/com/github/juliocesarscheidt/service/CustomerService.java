@@ -19,13 +19,13 @@ import com.github.juliocesarscheidt.repository.CustomerRepository;
 public class CustomerService {
   @Autowired
   CustomerRepository repository;
-  
+
   private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
   public CustomerDTO findOne(Long id) throws Exception {
     Customer entity = repository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Customer Not Found"));
-    
+
     return DataMapper.parseObject(entity, CustomerDTO.class);
   }
 
@@ -77,7 +77,7 @@ public class CustomerService {
     try {
       return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
 
-    }  catch (Exception e) {
+    } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
