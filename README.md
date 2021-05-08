@@ -3,7 +3,9 @@
 ![Build PR](https://github.com/juliocesarscheidt/java-spring-rest-api-project/actions/workflows/build_pr.yml/badge.svg)
 ![Build Push](https://github.com/juliocesarscheidt/java-spring-rest-api-project/actions/workflows/build_push.yml/badge.svg)
 
-This project is a tiny API made with Spring Boot, Maven and Java, running everything inside docker containers.
+This project is a tiny API made with Java - Spring Boot, with Hibernate for JPA, Maven for package management, running everything inside docker containers.
+
+It will implement HATEOAS using spring hateoas.
 
 ## Up and Running
 
@@ -23,17 +25,17 @@ docker-compose logs -f --tail=50 api
 # create
 curl --silent -X POST \
   -H 'content-type: application/json' \
-  --data '{"firstName": "CUSTOMER", "lastName": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
+  --data '{"first_name": "CUSTOMER", "last_name": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/api/v1/customer'
-# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
+# {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # get all
 curl --silent -X GET --url 'http://localhost:8000/api/v1/customer'
-# [{"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/api/v1/customer/1"}]}]
+# [{"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/api/v1/customer/1"}]}]
 
 # get by ID
 curl --silent -X GET --url 'http://localhost:8000/api/v1/customer/1'
-# {"id":1,"firstName":"CUSTOMER","lastName":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
+# {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # check on Database
 docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
@@ -47,9 +49,9 @@ docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
 # update
 curl --silent -X PUT \
   -H 'content-type: application/json' \
-  --data '{"firstName": "CUSTOMER_CHANGED", "lastName": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
+  --data '{"first_name": "CUSTOMER_CHANGED", "last_name": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/api/v1/customer/1'
-# {"id":1,"firstName":"CUSTOMER_CHANGED","lastName":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
+# {"id":1,"first_name":"CUSTOMER_CHANGED","last_name":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/api/v1/customer/1"}}}
 
 # delete
 curl --silent -X DELETE -I --url 'http://localhost:8000/api/v1/customer/1'
