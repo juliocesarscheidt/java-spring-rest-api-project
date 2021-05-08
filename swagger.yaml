@@ -115,16 +115,16 @@ components:
     customer_payload:
       type: object
       required:
-        - firstName
-        - lastName
+        - first_name
+        - last_name
         - email
         - address
         - gender
       properties:
-        firstName:
+        first_name:
           type: string
           example: "first name"
-        lastName:
+        last_name:
           type: string
           example: "last name"
         email:
