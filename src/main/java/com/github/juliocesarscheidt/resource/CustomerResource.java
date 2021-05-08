@@ -24,7 +24,7 @@ import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.service.CustomerService;
 
 @RestController
-@RequestMapping("/api/v1/customer")
+@RequestMapping("/v1/customer")
 public class CustomerResource {
 
   @Autowired
