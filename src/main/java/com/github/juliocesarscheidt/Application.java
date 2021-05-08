@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+
 @SpringBootApplication
 @EnableAutoConfiguration
 @ComponentScan
@@ -20,7 +21,7 @@ public class Application {
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
-      System.out.println("Let's inspect the beans provided by Spring Boot:");
+      System.out.println("Provided Beans from Spring Boot ::");
 
       String[] beanNames = ctx.getBeanDefinitionNames();
       Arrays.sort(beanNames);
