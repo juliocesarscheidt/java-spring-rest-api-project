@@ -23,6 +23,10 @@ import com.github.juliocesarscheidt.data.dto.CustomerDTO;
 import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.service.CustomerService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
+@Api(value = "Customer Endpoint", tags = {"Customer"})
 @RestController
 @RequestMapping("/v1/customer")
 public class CustomerResource {
@@ -30,7 +34,7 @@ public class CustomerResource {
   @Autowired
   private CustomerService customerService;
 
-  private Logger logger = LoggerFactory.getLogger(CustomerService.class);
+  private Logger logger = LoggerFactory.getLogger(CustomerResource.class);
 
   private void addLinkTo(CustomerDTO dto, Long id) {
     try {
@@ -41,7 +45,8 @@ public class CustomerResource {
       throw new ServerErrorException("Internal Server Error");
     }
   }
-
+  
+  @ApiOperation(value = "Find All")
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
   public List<CustomerDTO> find() throws Exception {
@@ -52,6 +57,7 @@ public class CustomerResource {
     return customers;
   }
 
+  @ApiOperation(value = "Create")
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public CustomerDTO create(@RequestBody CustomerDTO customer) throws Exception {
@@ -61,6 +67,7 @@ public class CustomerResource {
     return dto;
   }
 
+  @ApiOperation(value = "Find One")
   @GetMapping("/{id}")
   @ResponseStatus(code = HttpStatus.OK)
   public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
@@ -70,6 +77,7 @@ public class CustomerResource {
     return dto;
   }
 
+  @ApiOperation(value = "Update")
   @PutMapping("/{id}")
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
@@ -79,6 +87,7 @@ public class CustomerResource {
     return dto;
   }
 
+  @ApiOperation(value = "Delete")
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {

@@ -7,4 +7,4 @@ CREATE TABLE `customer` (
   `email` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
