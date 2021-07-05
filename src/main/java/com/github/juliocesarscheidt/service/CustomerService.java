@@ -41,16 +41,16 @@ public class CustomerService {
 
   public CustomerDTO create(CustomerDTO customer) throws Exception {
     if (!customer.validate()) {
-    	throw new BadRequestException("Invalid Attributes");
+      throw new BadRequestException("Invalid Attributes");
     }
 
     try {
-    	Customer entity = DataMapper.parseObject(customer, Customer.class);
-    	return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
+      Customer entity = DataMapper.parseObject(customer, Customer.class);
+      return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
 
     } catch (Exception e) {
-    	logger.error("Error caught " + e.getMessage());
-    	throw new ServerErrorException("Internal Server Error");
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
     }
   }
 

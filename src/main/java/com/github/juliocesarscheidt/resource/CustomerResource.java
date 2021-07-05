@@ -45,7 +45,7 @@ public class CustomerResource {
       throw new ServerErrorException("Internal Server Error");
     }
   }
-  
+    
   @ApiOperation(value = "Find All")
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)

@@ -17,75 +17,75 @@ import com.github.juliocesarscheidt.repository.BookRepository;
 
 @Service
 public class BookService {
-	 @Autowired
-	 BookRepository repository;
-	 
-	 private Logger logger = LoggerFactory.getLogger(BookService.class);
-	 
-	 public BookDTO findOne(Long id) throws Exception {
-	    Book entity = repository.findById(id)
-			.orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
-	
-	    return DataMapper.parseObject(entity, BookDTO.class);
-	 }
-	 
-	 public List<BookDTO> find() throws Exception {
-	    try {
-	      return DataMapper.parseObjects(repository.findAll(), BookDTO.class);
-	
-	    } catch (Exception e) {
-	      logger.error("Error caught " + e.getMessage());
-	      throw new ServerErrorException("Internal Server Error");
-	    }
-	 }
-	 
-	 public BookDTO create(BookDTO book) throws Exception {
-		if (!book.validate()) {
-			throw new BadRequestException("Invalid Attributes");
-	    }
-	 
-		try {
-			Book entity = DataMapper.parseObject(book, Book.class);
-			return DataMapper.parseObject(repository.save(entity), BookDTO.class);
+  @Autowired
+  BookRepository repository;
+    
+  private Logger logger = LoggerFactory.getLogger(BookService.class);
+    
+  public BookDTO findOne(Long id) throws Exception {
+    Book entity = repository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
-	    } catch (Exception e) {
-	    	logger.error("Error caught " + e.getMessage());
-	    	throw new ServerErrorException("Internal Server Error");
-	    }
-	 }
-	 
-	 public BookDTO update(Long id, BookDTO book) throws Exception {
-	    if (!book.validate()) {
-	      throw new BadRequestException("Invalid Attributes");
-	    }
+    return DataMapper.parseObject(entity, BookDTO.class);
+  }
+    
+  public List<BookDTO> find() throws Exception {
+    try {
+      return DataMapper.parseObjects(repository.findAll(), BookDTO.class);
 
-	    Book entity = repository.findById(id)
-	      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+    
+  public BookDTO create(BookDTO book) throws Exception {
+    if (!book.validate()) {
+      throw new BadRequestException("Invalid Attributes");
+    }
+    
+    try {
+      Book entity = DataMapper.parseObject(book, Book.class);
+      return DataMapper.parseObject(repository.save(entity), BookDTO.class);
 
-	    if (book.getAuthor() != null) entity.setAuthor(book.getAuthor());
-	    if (book.getLaunchDate() != null) entity.setLaunchDate(book.getLaunchDate());
-	    if (book.getPrice() != null) entity.setPrice(book.getPrice());
-	    if (book.getTitle() != null) entity.setTitle(book.getTitle());
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+    
+  public BookDTO update(Long id, BookDTO book) throws Exception {
+    if (!book.validate()) {
+      throw new BadRequestException("Invalid Attributes");
+    }
 
-	    try {
-	    	return DataMapper.parseObject(repository.save(entity), BookDTO.class);
+    Book entity = repository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
-	    } catch (Exception e) {
-	    	logger.error("Error caught " + e.getMessage());
-	    	throw new ServerErrorException("Internal Server Error");
-	    }
-	 }
-	 
-	 public void delete(Long id) throws Exception {
-		Book entity = repository.findById(id)
-	      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+    if (book.getAuthor() != null) entity.setAuthor(book.getAuthor());
+    if (book.getLaunchDate() != null) entity.setLaunchDate(book.getLaunchDate());
+    if (book.getPrice() != null) entity.setPrice(book.getPrice());
+    if (book.getTitle() != null) entity.setTitle(book.getTitle());
 
-	    try {
-	    	repository.delete(entity);
+    try {
+      return DataMapper.parseObject(repository.save(entity), BookDTO.class);
 
-	    } catch (Exception e) {
-	    	logger.error("Error caught " + e.getMessage());
-	    	throw new ServerErrorException("Internal Server Error");
-	    }
-	 }
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+    
+  public void delete(Long id) throws Exception {
+    Book entity = repository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+
+    try {
+      repository.delete(entity);
+
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
 }
