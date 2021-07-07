@@ -27,7 +27,7 @@ services:
     networks:
       - subnet_0
     ports:
-      - 8000:8080
+      - 8000:8000
     environment:
       JAVA_OPTIONS: -Xmx400m
       JDBC_HOST: ${JDBC_HOST}

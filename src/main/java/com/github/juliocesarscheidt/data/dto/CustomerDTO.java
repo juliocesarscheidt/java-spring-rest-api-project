@@ -10,6 +10,7 @@ import com.github.dozermapper.core.Mapping;
 
 @JsonPropertyOrder({"id", "first_name", "last_name", "email", "address", "gender"})
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   @Mapping("id")
@@ -93,51 +94,61 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     return result;
   }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		CustomerDTO other = (CustomerDTO) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (email == null) {
-			if (other.email != null)
-				return false;
-		} else if (!email.equals(other.email))
-			return false;
-		if (firstName == null) {
-			if (other.firstName != null)
-				return false;
-		} else if (!firstName.equals(other.firstName))
-			return false;
-		if (gender == null) {
-			if (other.gender != null)
-				return false;
-		} else if (!gender.equals(other.gender))
-			return false;
-		if (lastName == null) {
-			if (other.lastName != null)
-				return false;
-		} else if (!lastName.equals(other.lastName))
-			return false;
-		if (uniqueId == null) {
-			if (other.uniqueId != null)
-				return false;
-		} else if (!uniqueId.equals(other.uniqueId))
-			return false;
-		return true;
-	}
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (!super.equals(obj))
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    CustomerDTO other = (CustomerDTO) obj;
+    if (address == null) {
+      if (other.address != null)
+        return false;
+    } else if (!address.equals(other.address))
+      return false;
+    if (email == null) {
+      if (other.email != null)
+        return false;
+    } else if (!email.equals(other.email))
+      return false;
+    if (firstName == null) {
+      if (other.firstName != null)
+        return false;
+    } else if (!firstName.equals(other.firstName))
+      return false;
+    if (gender == null) {
+      if (other.gender != null)
+        return false;
+    } else if (!gender.equals(other.gender))
+      return false;
+    if (lastName == null) {
+      if (other.lastName != null)
+        return false;
+    } else if (!lastName.equals(other.lastName))
+      return false;
+    if (uniqueId == null) {
+      if (other.uniqueId != null)
+        return false;
+    } else if (!uniqueId.equals(other.uniqueId))
+      return false;
+    return true;
+  }
 
-	@Override
-	public String toString() {
-		return "CustomerDTO [uniqueId=" + uniqueId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
+  @Override
+  public String toString() {
+    return "CustomerDTO [uniqueId=" + uniqueId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
       + email + ", address=" + address + ", gender=" + gender + "]";
-	}
+  }
+
+  public Boolean validate() {
+    if (this.getGender() != null
+      && (!this.getGender().equals("Male")
+      && !this.getGender().equals("Female"))
+    ) {
+      return false;
+    }
+    return true;
+  }
 }

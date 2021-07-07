@@ -13,6 +13,7 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @Table(name="customer", uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
 public class Customer implements Serializable {
+
   private static final long serialVersionUID = 1L;
 
   // data mapping
@@ -145,6 +146,6 @@ public class Customer implements Serializable {
   @Override
   public String toString() {
     return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-      + ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
+    		+ ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
   }
 }

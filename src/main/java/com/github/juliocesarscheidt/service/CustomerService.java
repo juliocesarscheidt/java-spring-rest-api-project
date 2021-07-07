@@ -40,11 +40,8 @@ public class CustomerService {
   }
 
   public CustomerDTO create(CustomerDTO customer) throws Exception {
-    if (customer.getGender() != null
-      && (!customer.getGender().equals("Male")
-      && !customer.getGender().equals("Female"))
-    ) {
-      throw new BadRequestException("Invalid Customer Gender");
+    if (!customer.validate()) {
+      throw new BadRequestException("Invalid Attributes");
     }
 
     try {
@@ -58,11 +55,8 @@ public class CustomerService {
   }
 
   public CustomerDTO update(Long id, CustomerDTO customer) throws Exception {
-    if (customer.getGender() != null
-      && (!customer.getGender().equals("Male")
-      && !customer.getGender().equals("Female"))
-    ) {
-      throw new BadRequestException("Invalid Customer Gender");
+    if (!customer.validate()) {
+      throw new BadRequestException("Invalid Attributes");
     }
 
     Customer entity = repository.findById(id)

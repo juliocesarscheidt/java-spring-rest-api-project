@@ -1,8 +1,9 @@
 package com.github.juliocesarscheidt.resource;
 
-import java.util.List;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,80 +20,80 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.juliocesarscheidt.data.dto.CustomerDTO;
+import com.github.juliocesarscheidt.data.dto.BookDTO;
 import com.github.juliocesarscheidt.exception.ServerErrorException;
-import com.github.juliocesarscheidt.service.CustomerService;
+import com.github.juliocesarscheidt.service.BookService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(value = "Customer Endpoint", tags = {"Customer"})
+@Api(value = "Book Endpoint", tags = {"Book"})
 @RestController
-@RequestMapping("/v1/customer")
-public class CustomerResource {
+@RequestMapping("/v1/book")
+public class BookResource {
 
   @Autowired
-  private CustomerService customerService;
-
-  private Logger logger = LoggerFactory.getLogger(CustomerResource.class);
-
-  private void addLinkTo(CustomerDTO dto, Long id) {
+  private BookService bookService;
+    
+  private Logger logger = LoggerFactory.getLogger(BookResource.class);
+    
+  private void addLinkTo(BookDTO dto, Long id) {
     try {
-      dto.add(linkTo(methodOn(CustomerResource.class).findOne(id)).withSelfRel());
-
+      dto.add(linkTo(methodOn(BookResource.class).findOne(id)).withSelfRel());
+  
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
-    
+
   @ApiOperation(value = "Find All")
   @GetMapping
   @ResponseStatus(code = HttpStatus.OK)
-  public List<CustomerDTO> find() throws Exception {
-    List<CustomerDTO> customers = customerService.find();
-    customers.stream()
-      .forEach(cust -> addLinkTo(cust, cust.getUniqueId()));
-
-    return customers;
+  public List<BookDTO> find() throws Exception {
+    List<BookDTO> books = bookService.find();
+    books.stream()
+      .forEach(book -> addLinkTo(book, book.getUniqueId()));
+  
+    return books;
   }
-
+    
   @ApiOperation(value = "Create")
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  public CustomerDTO create(@RequestBody CustomerDTO customer) throws Exception {
-    CustomerDTO dto = customerService.create(customer);
+  public BookDTO create(@RequestBody BookDTO book) throws Exception {
+    BookDTO dto = bookService.create(book);
     addLinkTo(dto, dto.getUniqueId());
-
+  
     return dto;
   }
-
+    
   @ApiOperation(value = "Find One")
   @GetMapping("/{id}")
   @ResponseStatus(code = HttpStatus.OK)
-  public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
-    CustomerDTO dto = customerService.findOne(id);
+  public BookDTO findOne(@PathVariable("id") Long id) throws Exception {
+    BookDTO dto = bookService.findOne(id);
     addLinkTo(dto, id);
-
+  
     return dto;
   }
-
+    
   @ApiOperation(value = "Update")
   @PutMapping("/{id}")
   @ResponseStatus(code = HttpStatus.ACCEPTED)
-  public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
-    CustomerDTO dto = customerService.update(id, customer);
+  public BookDTO update(@PathVariable("id") Long id, @RequestBody BookDTO book) throws Exception {
+    BookDTO dto = bookService.update(id, book);
     addLinkTo(dto, id);
-
+  
     return dto;
   }
-
+    
   @ApiOperation(value = "Delete")
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
-    customerService.delete(id);
-
+    bookService.delete(id);
+  
     return ResponseEntity.noContent().build();
   }
 }
