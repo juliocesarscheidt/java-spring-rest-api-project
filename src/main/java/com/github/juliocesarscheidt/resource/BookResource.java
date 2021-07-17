@@ -38,7 +38,7 @@ public class BookResource {
 
   @Autowired
   private BookService bookService;
-    
+
   private Logger logger = LoggerFactory.getLogger(BookResource.class);
 
   @ResponseBody
@@ -46,11 +46,11 @@ public class BookResource {
   public String handleHttpMediaTypeNotAcceptableException() {
     return "acceptable MIME type:" + MediaType.APPLICATION_JSON_VALUE;
   }
-  
+
   private void addLinkTo(BookDTO dto, Long id) {
     try {
       dto.add(linkTo(methodOn(BookResource.class).findOne(id)).withSelfRel());
-  
+
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
@@ -64,46 +64,46 @@ public class BookResource {
     List<BookDTO> books = bookService.find();
     books.stream()
       .forEach(book -> addLinkTo(book, book.getUniqueId()));
-  
+
     return books;
   }
-    
+
   @ApiOperation(value = "Create")
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
   public BookDTO create(@RequestBody BookDTO book) throws Exception {
     BookDTO dto = bookService.create(book);
     addLinkTo(dto, dto.getUniqueId());
-  
+
     return dto;
   }
-    
+
   @ApiOperation(value = "Find One")
   @GetMapping("/{id}")
   @ResponseStatus(code = HttpStatus.OK)
   public BookDTO findOne(@PathVariable("id") Long id) throws Exception {
     BookDTO dto = bookService.findOne(id);
     addLinkTo(dto, id);
-  
+
     return dto;
   }
-    
+
   @ApiOperation(value = "Update")
   @PutMapping("/{id}")
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   public BookDTO update(@PathVariable("id") Long id, @RequestBody BookDTO book) throws Exception {
     BookDTO dto = bookService.update(id, book);
     addLinkTo(dto, id);
-  
+
     return dto;
   }
-    
+
   @ApiOperation(value = "Delete")
   @DeleteMapping("/{id}")
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
     bookService.delete(id);
-  
+
     return ResponseEntity.noContent().build();
   }
 }

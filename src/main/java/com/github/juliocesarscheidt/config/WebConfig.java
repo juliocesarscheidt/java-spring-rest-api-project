@@ -12,12 +12,12 @@ import org.springframework.boot.actuate.autoconfigure.metrics.MeterRegistryCusto
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-	
+
   @Bean
   MeterRegistryCustomizer<MeterRegistry> metricsCommonTags() {
-	  return registry -> registry.config().commonTags("application", "SpringBoot REST API");
+    return registry -> registry.config().commonTags("application", "SpringBoot REST API");
   }
-//  
+
 //  @Override
 //  public void configureContentNegotiation(ContentNegotiationConfigurer configurer) {
 //    configurer
