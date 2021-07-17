@@ -51,7 +51,7 @@ mvn clean package spring-boot:run
 
 ```bash
 # check healthcheck
-curl --silent -X GET --url 'http://localhost:8000/actuator/health' | jq -r '.'
+curl --silent -X GET --url 'http://localhost:8000/actuator/health'
 
 # check prometheus client (spring actuator)
 curl --silent -X GET --url 'http://localhost:8000/actuator/prometheus'
