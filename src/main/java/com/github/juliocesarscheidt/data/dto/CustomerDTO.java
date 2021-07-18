@@ -1,6 +1,7 @@
 package com.github.juliocesarscheidt.data.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -28,6 +29,15 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
   private String address;
 
   private String gender;
+
+  @JsonProperty("created_at")
+  private Date createdAt;
+
+  @JsonProperty("updated_at")
+  private Date updatedAt;
+
+  @JsonProperty("deleted_at")
+  private Date deletedAt;
 
   // constructor
   public CustomerDTO() {}
@@ -79,6 +89,30 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
 
   public void setGender(String gender) {
     this.gender = gender;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public Date getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
   }
 
   @Override

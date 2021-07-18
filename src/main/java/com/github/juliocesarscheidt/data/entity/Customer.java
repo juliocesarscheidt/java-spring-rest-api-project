@@ -1,6 +1,7 @@
 package com.github.juliocesarscheidt.data.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -35,6 +38,18 @@ public class Customer implements Serializable {
 
   @Column(nullable = true, length = 50)
   private String gender;
+
+  @Column(name="created_at", nullable = false)
+  @Temporal(TemporalType.DATE)
+  private Date createdAt;
+
+  @Column(name="updated_at", nullable = true)
+  @Temporal(TemporalType.DATE)
+  private Date updatedAt;
+
+  @Column(name="deleted_at", nullable = true)
+  @Temporal(TemporalType.DATE)
+  private Date deletedAt;
 
   // constructor
   public Customer() {}
@@ -86,6 +101,30 @@ public class Customer implements Serializable {
 
   public void setGender(String gender) {
     this.gender = gender;
+  }
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public Date getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
   }
 
   @Override
@@ -146,6 +185,6 @@ public class Customer implements Serializable {
   @Override
   public String toString() {
     return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-    		+ ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
+      + ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
   }
 }

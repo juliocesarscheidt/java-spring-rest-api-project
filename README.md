@@ -71,7 +71,7 @@ curl --silent -X POST \
 # {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # get all customers
-curl --silent -X GET --url 'http://localhost:8000/v1/customer'
+curl --silent -X GET --url 'http://localhost:8000/v1/customer?page=0&size=50'
 # [{"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/v1/customer/1"}]}]
 
 # get customer by ID

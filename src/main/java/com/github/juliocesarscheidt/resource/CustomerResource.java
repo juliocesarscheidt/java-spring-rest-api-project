@@ -8,18 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,12 +37,6 @@ public class CustomerResource {
 
   private Logger logger = LoggerFactory.getLogger(CustomerResource.class);
 
-  @ResponseBody
-  @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
-  public String handleHttpMediaTypeNotAcceptableException() {
-    return "acceptable MIME type:" + MediaType.APPLICATION_JSON_VALUE;
-  }
-
   private void addLinkTo(CustomerDTO dto, Long id) {
     try {
       dto.add(linkTo(methodOn(CustomerResource.class).findOne(id)).withSelfRel());
@@ -57,10 +48,10 @@ public class CustomerResource {
   }
 
   @ApiOperation(value = "Find All")
-  @GetMapping
+  @GetMapping(produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
-  public List<CustomerDTO> find() throws Exception {
-    List<CustomerDTO> customers = customerService.find();
+  public List<CustomerDTO> find(@RequestParam("page") Integer page, @RequestParam("size") Integer size) throws Exception {
+    List<CustomerDTO> customers = customerService.find(page, size);
     customers.stream()
       .forEach(cust -> addLinkTo(cust, cust.getUniqueId()));
 
@@ -68,7 +59,7 @@ public class CustomerResource {
   }
 
   @ApiOperation(value = "Create")
-  @PostMapping
+  @PostMapping(produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.CREATED)
   public CustomerDTO create(@RequestBody CustomerDTO customer) throws Exception {
     CustomerDTO dto = customerService.create(customer);
@@ -78,7 +69,7 @@ public class CustomerResource {
   }
 
   @ApiOperation(value = "Find One")
-  @GetMapping("/{id}")
+  @GetMapping(value = "/{id}", produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
   public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
     CustomerDTO dto = customerService.findOne(id);
@@ -88,7 +79,7 @@ public class CustomerResource {
   }
 
   @ApiOperation(value = "Update")
-  @PutMapping("/{id}")
+  @PutMapping(value = "/{id}", produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.ACCEPTED)
   public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
     CustomerDTO dto = customerService.update(id, customer);
@@ -98,7 +89,7 @@ public class CustomerResource {
   }
 
   @ApiOperation(value = "Delete")
-  @DeleteMapping("/{id}")
+  @DeleteMapping(value = "/{id}", produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
     customerService.delete(id);

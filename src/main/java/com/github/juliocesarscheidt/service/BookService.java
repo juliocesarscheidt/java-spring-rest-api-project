@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.juliocesarscheidt.data.dto.BookDTO;
@@ -19,31 +21,34 @@ import com.github.juliocesarscheidt.repository.BookRepository;
 public class BookService {
   @Autowired
   BookRepository repository;
-    
+
   private Logger logger = LoggerFactory.getLogger(BookService.class);
-    
+
   public BookDTO findOne(Long id) throws Exception {
     Book entity = repository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
     return DataMapper.parseObject(entity, BookDTO.class);
   }
-    
-  public List<BookDTO> find() throws Exception {
+
+  public List<BookDTO> find(Integer page, Integer size) throws Exception {
+    Pageable pageable = PageRequest.of(page, size);
+    List<Book> books = repository.findAll(pageable).getContent();
+
     try {
-      return DataMapper.parseObjects(repository.findAll(), BookDTO.class);
+      return DataMapper.parseObjects(books, BookDTO.class);
 
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
       throw new ServerErrorException("Internal Server Error");
     }
   }
-    
+
   public BookDTO create(BookDTO book) throws Exception {
     if (!book.validate()) {
       throw new BadRequestException("Invalid Attributes");
     }
-    
+
     try {
       Book entity = DataMapper.parseObject(book, Book.class);
       return DataMapper.parseObject(repository.save(entity), BookDTO.class);
@@ -53,7 +58,7 @@ public class BookService {
       throw new ServerErrorException("Internal Server Error");
     }
   }
-    
+
   public BookDTO update(Long id, BookDTO book) throws Exception {
     if (!book.validate()) {
       throw new BadRequestException("Invalid Attributes");
@@ -75,7 +80,7 @@ public class BookService {
       throw new ServerErrorException("Internal Server Error");
     }
   }
-    
+
   public void delete(Long id) throws Exception {
     Book entity = repository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
