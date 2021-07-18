@@ -102,30 +102,30 @@ public class Customer implements Serializable {
   public void setGender(String gender) {
     this.gender = gender;
   }
- 
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
-	
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
+
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public Date getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
+  }
 
   @Override
   public int hashCode() {
@@ -185,6 +185,6 @@ public class Customer implements Serializable {
   @Override
   public String toString() {
     return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-    		+ ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
+      + ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
   }
 }

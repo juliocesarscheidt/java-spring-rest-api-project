@@ -15,159 +15,159 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name="book")
 public class Book implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
 
-	// data mapping
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id;
+  private static final long serialVersionUID = 1L;
 
-	@Column(nullable = false, length = 255)
-	private String author;
+  // data mapping
+  @Id
+  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  private Long id;
 
-	@Column(name="launch_date", nullable = false, length = 80)
-	@Temporal(TemporalType.DATE)
-	private Date launchDate;
+  @Column(nullable = false, length = 255)
+  private String author;
 
-	@Column(nullable = false)
-	private Double price;
+  @Column(name="launch_date", nullable = false, length = 80)
+  @Temporal(TemporalType.DATE)
+  private Date launchDate;
 
-	@Column(nullable = true, length = 255)
-	private String title;
-	
-	@Column(name="created_at", nullable = false)
-	@Temporal(TemporalType.DATE)
-	private Date createdAt;
+  @Column(nullable = false)
+  private Double price;
 
-	@Column(name="updated_at", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date updatedAt;
+  @Column(nullable = true, length = 255)
+  private String title;
 
-	@Column(name="deleted_at", nullable = true)
-	@Temporal(TemporalType.DATE)
-	private Date deletedAt;
+  @Column(name="created_at", nullable = false)
+  @Temporal(TemporalType.DATE)
+  private Date createdAt;
 
-	// constructor
-	public Book() {}
+  @Column(name="updated_at", nullable = true)
+  @Temporal(TemporalType.DATE)
+  private Date updatedAt;
 
-	public Long getId() {
-		return id;
-	}
+  @Column(name="deleted_at", nullable = true)
+  @Temporal(TemporalType.DATE)
+  private Date deletedAt;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+  // constructor
+  public Book() {}
 
-	public String getAuthor() {
-		return author;
-	}
+  public Long getId() {
+    return id;
+  }
 
-	public void setAuthor(String author) {
-		this.author = author;
-	}
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-	public Date getLaunchDate() {
-		return launchDate;
-	}
+  public String getAuthor() {
+    return author;
+  }
 
-	public void setLaunchDate(Date launchDate) {
-		this.launchDate = launchDate;
-	}
+  public void setAuthor(String author) {
+    this.author = author;
+  }
 
-	public Double getPrice() {
-		return price;
-	}
+  public Date getLaunchDate() {
+    return launchDate;
+  }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+  public void setLaunchDate(Date launchDate) {
+    this.launchDate = launchDate;
+  }
 
-	public String getTitle() {
-		return title;
-	}
+  public Double getPrice() {
+    return price;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-	
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-	
-	public Date getUpdatedAt() {
-		return updatedAt;
-	}
-	
-	public void setUpdatedAt(Date updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-	
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
-	
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
+  public void setPrice(Double price) {
+    this.price = price;
+  }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
-		result = prime * result + ((price == null) ? 0 : price.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		return result;
-	}
+  public String getTitle() {
+    return title;
+  }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Book other = (Book) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		if (launchDate == null) {
-			if (other.launchDate != null)
-				return false;
-		} else if (!launchDate.equals(other.launchDate))
-			return false;
-		if (price == null) {
-			if (other.price != null)
-				return false;
-		} else if (!price.equals(other.price))
-			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
-			return false;
-		return true;
-	}
+  public void setTitle(String title) {
+    this.title = title;
+  }
 
-	
-	@Override
-	public String toString() {
-		return "Book [id=" + id + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price + ", title="
-				+ title + "]";
-	}
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  public void setCreatedAt(Date createdAt) {
+    this.createdAt = createdAt;
+  }
+
+  public Date getUpdatedAt() {
+    return updatedAt;
+  }
+
+  public void setUpdatedAt(Date updatedAt) {
+    this.updatedAt = updatedAt;
+  }
+
+  public Date getDeletedAt() {
+    return deletedAt;
+  }
+
+  public void setDeletedAt(Date deletedAt) {
+    this.deletedAt = deletedAt;
+  }
+
+  @Override
+  public int hashCode() {
+    final int prime = 31;
+    int result = 1;
+    result = prime * result + ((author == null) ? 0 : author.hashCode());
+    result = prime * result + ((id == null) ? 0 : id.hashCode());
+    result = prime * result + ((launchDate == null) ? 0 : launchDate.hashCode());
+    result = prime * result + ((price == null) ? 0 : price.hashCode());
+    result = prime * result + ((title == null) ? 0 : title.hashCode());
+    return result;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    Book other = (Book) obj;
+    if (author == null) {
+      if (other.author != null)
+        return false;
+    } else if (!author.equals(other.author))
+      return false;
+    if (id == null) {
+      if (other.id != null)
+        return false;
+    } else if (!id.equals(other.id))
+      return false;
+    if (launchDate == null) {
+      if (other.launchDate != null)
+        return false;
+    } else if (!launchDate.equals(other.launchDate))
+      return false;
+    if (price == null) {
+      if (other.price != null)
+        return false;
+    } else if (!price.equals(other.price))
+      return false;
+    if (title == null) {
+      if (other.title != null)
+        return false;
+    } else if (!title.equals(other.title))
+      return false;
+    return true;
+  }
+
+
+  @Override
+  public String toString() {
+    return "Book [id=" + id + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price + ", title="
+      + title + "]";
+  }
 }
