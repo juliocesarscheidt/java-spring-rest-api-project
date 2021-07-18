@@ -5,6 +5,8 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.github.juliocesarscheidt.data.dto.BookDTO;
@@ -29,9 +31,12 @@ public class BookService {
     return DataMapper.parseObject(entity, BookDTO.class);
   }
     
-  public List<BookDTO> find() throws Exception {
+  public List<BookDTO> find(Integer page, Integer size) throws Exception {
+    Pageable pageable = PageRequest.of(page, size);
+	List<Book> books = repository.findAll(pageable).getContent();
+
     try {
-      return DataMapper.parseObjects(repository.findAll(), BookDTO.class);
+      return DataMapper.parseObjects(books, BookDTO.class);
 
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());

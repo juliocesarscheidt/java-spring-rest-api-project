@@ -35,6 +35,18 @@ public class Book implements Serializable {
 
 	@Column(nullable = true, length = 255)
 	private String title;
+	
+	@Column(name="created_at", nullable = false)
+	@Temporal(TemporalType.DATE)
+	private Date createdAt;
+
+	@Column(name="updated_at", nullable = true)
+	@Temporal(TemporalType.DATE)
+	private Date updatedAt;
+
+	@Column(name="deleted_at", nullable = true)
+	@Temporal(TemporalType.DATE)
+	private Date deletedAt;
 
 	// constructor
 	public Book() {}
@@ -77,6 +89,30 @@ public class Book implements Serializable {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+	
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+	
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+	
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+	
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+	
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
 	}
 
 	@Override

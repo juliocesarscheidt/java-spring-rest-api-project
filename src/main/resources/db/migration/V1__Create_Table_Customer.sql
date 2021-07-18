@@ -1,10 +1,12 @@
 CREATE TABLE `customer` (
-  `id` bigint NOT NULL AUTO_INCREMENT,
-  `address` varchar(255) DEFAULT NULL,
+  `id` INT AUTO_INCREMENT PRIMARY KEY,
   `first_name` varchar(100) NOT NULL,
-  `gender` varchar(50) DEFAULT NULL,
   `last_name` varchar(100) NOT NULL,
   `email` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`),
+  `address` varchar(255) DEFAULT NULL,
+  `gender` varchar(50) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` datetime NULL,
+  `deleted_at` datetime NULL,
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

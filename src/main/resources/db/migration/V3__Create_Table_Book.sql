@@ -3,5 +3,8 @@
   `author` longtext,
   `launch_date` datetime(6) NOT NULL,
   `price` decimal(65,2) NOT NULL,
-  `title` longtext
+  `title` longtext,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  `updated_at` datetime NULL,
+  `deleted_at` datetime NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;

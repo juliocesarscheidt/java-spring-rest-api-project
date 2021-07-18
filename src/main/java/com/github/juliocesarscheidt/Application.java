@@ -21,13 +21,12 @@ public class Application {
   @Bean
   public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
     return args -> {
-      System.out.println("Provided Beans from Spring Boot ::");
-
+      // System.out.println("Provided Beans from Spring Boot ::");
       String[] beanNames = ctx.getBeanDefinitionNames();
       Arrays.sort(beanNames);
-      for (String beanName : beanNames) {
-        System.out.print(beanName + ' ');
-      }
+      // for (String beanName : beanNames) {
+      //   System.out.print(beanName + ' ');
+      // }
     };
   }
 }

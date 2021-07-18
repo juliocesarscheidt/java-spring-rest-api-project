@@ -26,7 +26,16 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
   private Double price;
 
   private String title;
-    
+
+  @JsonProperty("created_at")
+  private Date createdAt;
+
+  @JsonProperty("updated_at")
+  private Date updatedAt;
+  
+  @JsonProperty("deleted_at")
+  private Date deletedAt;
+
   // constructor
   public BookDTO() {}
 
@@ -69,6 +78,30 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
   public void setTitle(String title) {
     this.title = title;
   }
+  
+  	public Date getCreatedAt() {
+  		return createdAt;
+  	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Date getDeletedAt() {
+		return deletedAt;
+	}
+
+	public void setDeletedAt(Date deletedAt) {
+		this.deletedAt = deletedAt;
+	}
 
   @Override
   public int hashCode() {
