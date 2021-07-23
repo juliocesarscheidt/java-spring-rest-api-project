@@ -35,6 +35,8 @@ services:
       JDBC_USER: ${JDBC_USER}
       JDBC_PASS: ${JDBC_PASS}
       JDBC_DATABASE: ${JDBC_DATABASE}
+      JWT_TOKEN_SECRET_KEY: ${JWT_TOKEN_SECRET_KEY:-secret}
+      JWT_TOKEN_EXPIRE_LENGTH: ${JWT_TOKEN_EXPIRE_LENGTH:-3600000}
 
   prometheus:
     container_name: prometheus
