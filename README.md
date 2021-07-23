@@ -63,19 +63,39 @@ curl --silent -X GET -H "Authorization: Basic ${AUTH}" \
   'http://localhost:9090/metrics'
 
 
+# get token
+DATA='{"username": "julio",	"password": "password1234"}'
+TOKEN=$(curl --silent \
+  -X POST \
+  -H 'Content-type: application/json' \
+  --data-raw "${DATA}" \
+  --url 'http://localhost:8000/v1/auth/signin' | jq -r '.token')
+echo "${TOKEN}"
+
+
+AUTH_HEADER="Authorization: Bearer ${TOKEN}"
+echo "${AUTH_HEADER}"
+
 # create customer
 curl --silent -X POST \
   -H 'content-type: application/json' \
+  -H "${AUTH_HEADER}" \
   --data '{"first_name": "CUSTOMER", "last_name": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/v1/customer'
 # {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # get all customers
-curl --silent -X GET --url 'http://localhost:8000/v1/customer?page=0&size=50'
+curl --silent -X GET \
+  -H 'content-type: application/json' \
+  -H "${AUTH_HEADER}" \
+  --url 'http://localhost:8000/v1/customer?page=0&size=50'
 # [{"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/v1/customer/1"}]}]
 
 # get customer by ID
-curl --silent -X GET --url 'http://localhost:8000/v1/customer/1'
+curl --silent -X GET \
+  -H 'content-type: application/json' \
+  -H "${AUTH_HEADER}" \
+  --url 'http://localhost:8000/v1/customer/1'
 # {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # check on Database
@@ -90,11 +110,15 @@ docker-compose exec mysql mysql -uroot -padmin -h 127.0.0.1 -P3306 \
 # update customer
 curl --silent -X PUT \
   -H 'content-type: application/json' \
+  -H "${AUTH_HEADER}" \
   --data '{"first_name": "CUSTOMER_CHANGED", "last_name": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
   --url 'http://localhost:8000/v1/customer/1'
 # {"id":1,"first_name":"CUSTOMER_CHANGED","last_name":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # delete customer
-curl --silent -X DELETE -I --url 'http://localhost:8000/v1/customer/1'
+curl --silent -X DELETE \
+  -H 'content-type: application/json' \
+  -H "${AUTH_HEADER}" \
+  -I --url 'http://localhost:8000/v1/customer/1'
 # HTTP/1.1 204
 ```

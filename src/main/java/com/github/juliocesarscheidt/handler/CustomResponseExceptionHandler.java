@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.github.juliocesarscheidt.exception.ResponseException;
 import com.github.juliocesarscheidt.exception.BadRequestException;
+import com.github.juliocesarscheidt.exception.InvalidJwtAuthenticationException;
 
 @RestControllerAdvice
 @RestController
@@ -31,6 +32,17 @@ public class CustomResponseExceptionHandler extends ResponseEntityExceptionHandl
 
   @ExceptionHandler(BadRequestException.class)
   public final ResponseEntity<ResponseException> handleBadRequestExceptions(Exception ex, WebRequest req) {
+    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+      .format(new Date());
+
+    ResponseException responseException = new ResponseException(
+      formatted, ex.getMessage(), req.getDescription(false));
+
+    return new ResponseEntity<>(responseException, HttpStatus.BAD_REQUEST);
+  }
+  
+  @ExceptionHandler(InvalidJwtAuthenticationException.class)
+  public final ResponseEntity<ResponseException> handleInvalidJwtAuthenticationException(Exception ex, WebRequest req) {
     String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
       .format(new Date());
 
