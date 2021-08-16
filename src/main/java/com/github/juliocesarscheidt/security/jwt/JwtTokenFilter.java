@@ -42,15 +42,15 @@ public class JwtTokenFilter extends GenericFilterBean {
       }
 
     } catch (Exception e) {
-    throw new InvalidJwtAuthenticationException(e.getMessage());
-  }
+      throw new InvalidJwtAuthenticationException(e.getMessage());
+    }
 
     try {
-    chain.doFilter(request, response);
+      chain.doFilter(request, response);
 
-  } catch (IOException | ServletException e) {
-    e.printStackTrace();
-    throw new ServerErrorException("Internal server error");
-  }
+    } catch (IOException | ServletException e) {
+      e.printStackTrace();
+      throw new ServerErrorException("Internal server error");
+    }
   }
 }

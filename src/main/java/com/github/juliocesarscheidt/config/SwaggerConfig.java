@@ -46,9 +46,9 @@ public class SwaggerConfig {
 		"License URL",
 		Collections.emptyList()
 	);
-}
+  }
 
-@Bean
+  @Bean
   public UiConfiguration uiConfig() {
     return UiConfigurationBuilder.builder()
       .deepLinking(true)

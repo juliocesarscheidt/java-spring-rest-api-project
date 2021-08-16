@@ -41,10 +41,11 @@ public class AuthResource {
   @ApiOperation(value = "Signin")
   @PostMapping(value = "/signin", produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
-  public ResponseEntity signin(@RequestBody AccountCredentialsDTO data) throws Exception {
+  public ResponseEntity<?> signin(@RequestBody AccountCredentialsDTO data) throws Exception {
     try {
       var username = data.getUsername();
       System.out.println("username :: " + username);
+
       var password = data.getPassword();
       System.out.println("password :: " + password);
 

@@ -2,12 +2,11 @@ package com.github.juliocesarscheidt.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.juliocesarscheidt.data.dto.CustomerDTO;
 import com.github.juliocesarscheidt.data.entity.Customer;
@@ -18,11 +17,9 @@ import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.repository.CustomerRepository;
 
 @Service
-public class CustomerService {
+public class CustomerService extends BaseService {
   @Autowired
   CustomerRepository repository;
-
-  private Logger logger = LoggerFactory.getLogger(CustomerService.class);
 
   public CustomerDTO findOne(Long id) throws Exception {
     Customer entity = repository.findById(id)
@@ -51,6 +48,12 @@ public class CustomerService {
 
     try {
       Customer entity = DataMapper.parseObject(customer, Customer.class);
+
+      entity.setCreatedAt(this.getTimestamp());
+      entity.setEnabled(true);
+
+      System.out.println(entity.toString());
+
       return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
 
     } catch (Exception e) {
@@ -73,6 +76,11 @@ public class CustomerService {
     if (customer.getAddress() != null) entity.setAddress(customer.getAddress());
     if (customer.getGender() != null) entity.setGender(customer.getGender());
 
+    entity.setUpdatedAt(this.getTimestamp());
+    entity.setEnabled(true);
+
+    System.out.println(entity.toString());
+
     try {
       return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
 
@@ -88,6 +96,34 @@ public class CustomerService {
 
     try {
       repository.delete(entity);
+
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+
+  @Transactional
+  public void disable(Long id) {
+    repository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Customer Not Found"));
+
+    try {
+      repository.disableCustomer(id, this.getTimestamp());
+
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+
+  @Transactional
+  public void enable(Long id) {
+    repository.findById(id)
+      .orElseThrow(() -> new EntityNotFoundException("Customer Not Found"));
+
+    try {
+      repository.enableCustomer(id, this.getTimestamp());
 
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
