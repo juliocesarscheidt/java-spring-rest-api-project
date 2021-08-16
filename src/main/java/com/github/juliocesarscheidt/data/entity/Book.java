@@ -1,6 +1,7 @@
 package com.github.juliocesarscheidt.data.entity;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -37,16 +38,13 @@ public class Book implements Serializable {
   private String title;
 
   @Column(name="created_at", nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @Column(name="updated_at", nullable = true)
-  @Temporal(TemporalType.DATE)
-  private Date updatedAt;
+  private Timestamp updatedAt;
 
   @Column(name="deleted_at", nullable = true)
-  @Temporal(TemporalType.DATE)
-  private Date deletedAt;
+  private Timestamp deletedAt;
 
   // constructor
   public Book() {}
@@ -91,27 +89,27 @@ public class Book implements Serializable {
     this.title = title;
   }
 
-  public Date getCreatedAt() {
+  public Timestamp getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(Date createdAt) {
+  public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Date getUpdatedAt() {
+  public Timestamp getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(Date updatedAt) {
+  public void setUpdatedAt(Timestamp updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public Date getDeletedAt() {
+  public Timestamp getDeletedAt() {
     return deletedAt;
   }
 
-  public void setDeletedAt(Date deletedAt) {
+  public void setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
   }
 
@@ -164,10 +162,9 @@ public class Book implements Serializable {
     return true;
   }
 
-
   @Override
   public String toString() {
     return "Book [id=" + id + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price + ", title="
-      + title + "]";
+      + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
   }
 }

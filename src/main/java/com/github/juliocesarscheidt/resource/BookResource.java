@@ -1,12 +1,7 @@
 package com.github.juliocesarscheidt.resource;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
-
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +17,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.juliocesarscheidt.data.dto.BookDTO;
-import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.service.BookService;
 
 import io.swagger.annotations.Api;
@@ -31,27 +25,15 @@ import io.swagger.annotations.ApiOperation;
 @Api(value = "Book Endpoint", tags = {"Book"})
 @RestController
 @RequestMapping("/v1/book")
-public class BookResource {
+public class BookResource extends BaseResource {
 
   @Autowired
   private BookService bookService;
 
-  private Logger logger = LoggerFactory.getLogger(BookResource.class);
-
-  private void addLinkTo(BookDTO dto, Long id) {
-    try {
-      dto.add(linkTo(methodOn(BookResource.class).findOne(id)).withSelfRel());
-
-    } catch (Exception e) {
-      logger.error("Error caught " + e.getMessage());
-      throw new ServerErrorException("Internal Server Error");
-    }
-  }
-
   @ApiOperation(value = "Find All")
   @GetMapping(produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
-  public List<BookDTO> find(@RequestParam("page") Integer page, @RequestParam("size") Integer size) throws Exception {
+  public List<BookDTO> find(@RequestParam(value = "page", defaultValue = "0") Integer page, @RequestParam(value = "size", defaultValue = "50") Integer size) throws Exception {
     List<BookDTO> books = bookService.find(page, size);
     books.stream()
       .forEach(book -> addLinkTo(book, book.getUniqueId()));

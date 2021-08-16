@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.github.juliocesarscheidt.repository.UserRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService extends BaseService implements UserDetailsService {
   @Autowired
   UserRepository repository;
 

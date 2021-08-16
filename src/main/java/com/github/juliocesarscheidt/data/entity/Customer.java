@@ -1,7 +1,7 @@
 package com.github.juliocesarscheidt.data.entity;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,8 +9,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
 @Entity
@@ -39,17 +37,17 @@ public class Customer implements Serializable {
   @Column(nullable = true, length = 50)
   private String gender;
 
+  @Column(nullable = false)
+  private Boolean enabled;
+
   @Column(name="created_at", nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @Column(name="updated_at", nullable = true)
-  @Temporal(TemporalType.DATE)
-  private Date updatedAt;
+  private Timestamp updatedAt;
 
   @Column(name="deleted_at", nullable = true)
-  @Temporal(TemporalType.DATE)
-  private Date deletedAt;
+  private Timestamp deletedAt;
 
   // constructor
   public Customer() {}
@@ -103,27 +101,35 @@ public class Customer implements Serializable {
     this.gender = gender;
   }
 
-  public Date getCreatedAt() {
+  public Boolean getEnabled() {
+  return enabled;
+  }
+
+  public void setEnabled(Boolean enabled) {
+  this.enabled = enabled;
+  }
+
+  public Timestamp getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(Date createdAt) {
+  public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Date getUpdatedAt() {
+  public Timestamp getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(Date updatedAt) {
+  public void setUpdatedAt(Timestamp updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public Date getDeletedAt() {
+  public Timestamp getDeletedAt() {
     return deletedAt;
   }
 
-  public void setDeletedAt(Date deletedAt) {
+  public void setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
   }
 
@@ -132,11 +138,15 @@ public class Customer implements Serializable {
     final int prime = 31;
     int result = 1;
     result = prime * result + ((address == null) ? 0 : address.hashCode());
+    result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+    result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
     result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
     result = prime * result + ((gender == null) ? 0 : gender.hashCode());
     result = prime * result + ((id == null) ? 0 : id.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+    result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
     return result;
   }
 
@@ -154,10 +164,25 @@ public class Customer implements Serializable {
         return false;
     } else if (!address.equals(other.address))
       return false;
+    if (createdAt == null) {
+      if (other.createdAt != null)
+        return false;
+    } else if (!createdAt.equals(other.createdAt))
+      return false;
+    if (deletedAt == null) {
+      if (other.deletedAt != null)
+        return false;
+    } else if (!deletedAt.equals(other.deletedAt))
+      return false;
     if (email == null) {
       if (other.email != null)
         return false;
     } else if (!email.equals(other.email))
+      return false;
+    if (enabled == null) {
+      if (other.enabled != null)
+        return false;
+    } else if (!enabled.equals(other.enabled))
       return false;
     if (firstName == null) {
       if (other.firstName != null)
@@ -179,12 +204,18 @@ public class Customer implements Serializable {
         return false;
     } else if (!lastName.equals(other.lastName))
       return false;
+    if (updatedAt == null) {
+      if (other.updatedAt != null)
+        return false;
+    } else if (!updatedAt.equals(other.updatedAt))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName
-      + ", email=" + email + ", address=" + address + ", gender=" + gender + "]";
+    return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+      + ", address=" + address + ", gender=" + gender + ", enabled=" + enabled + ", createdAt=" + createdAt
+      + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
   }
 }

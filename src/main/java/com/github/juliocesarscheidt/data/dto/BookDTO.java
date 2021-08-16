@@ -1,6 +1,7 @@
 package com.github.juliocesarscheidt.data.dto;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.hateoas.RepresentationModel;
@@ -9,7 +10,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
-@JsonPropertyOrder({"id", "author", "launch_date", "price", "title"})
+@JsonPropertyOrder({"id", "author", "launch_date", "price", "title", "created_at", "updated_at", "deleted_at"})
 public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -28,13 +29,13 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
   private String title;
 
   @JsonProperty("created_at")
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  private Timestamp updatedAt;
 
   @JsonProperty("deleted_at")
-  private Date deletedAt;
+  private Timestamp deletedAt;
 
   // constructor
   public BookDTO() {}
@@ -79,27 +80,27 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
     this.title = title;
   }
 
-  public Date getCreatedAt() {
+  public Timestamp getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(Date createdAt) {
+  public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Date getUpdatedAt() {
+  public Timestamp getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(Date updatedAt) {
+  public void setUpdatedAt(Timestamp updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public Date getDeletedAt() {
+  public Timestamp getDeletedAt() {
     return deletedAt;
   }
 
-  public void setDeletedAt(Date deletedAt) {
+  public void setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
   }
 
@@ -154,8 +155,9 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
 
   @Override
   public String toString() {
-    return "BookDTO [uniqueId=" + uniqueId + ", author=" + author + ", launchDate=" + launchDate + ", price="
-      + price + ", title=" + title + "]";
+  return "BookDTO [uniqueId=" + uniqueId + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price
+    + ", title=" + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
+    + "]";
   }
 
   public Boolean validate() {

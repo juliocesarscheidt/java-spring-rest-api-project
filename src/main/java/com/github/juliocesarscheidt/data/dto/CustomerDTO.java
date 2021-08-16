@@ -1,7 +1,7 @@
 package com.github.juliocesarscheidt.data.dto;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Timestamp;
 
 import org.springframework.hateoas.RepresentationModel;
 
@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
 
-@JsonPropertyOrder({"id", "first_name", "last_name", "email", "address", "gender"})
+@JsonPropertyOrder({"id", "first_name", "last_name", "email", "address", "gender", "enabled", "created_at", "updated_at", "deleted_at"})
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -30,14 +30,16 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
 
   private String gender;
 
+  private Boolean enabled;
+
   @JsonProperty("created_at")
-  private Date createdAt;
+  private Timestamp createdAt;
 
   @JsonProperty("updated_at")
-  private Date updatedAt;
+  private Timestamp updatedAt;
 
   @JsonProperty("deleted_at")
-  private Date deletedAt;
+  private Timestamp deletedAt;
 
   // constructor
   public CustomerDTO() {}
@@ -91,27 +93,35 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     this.gender = gender;
   }
 
-  public Date getCreatedAt() {
+  public Boolean getEnabled() {
+    return enabled;
+  }
+
+  public void setEnabled(Boolean enabled) {
+    this.enabled = enabled;
+  }
+
+  public Timestamp getCreatedAt() {
     return createdAt;
   }
 
-  public void setCreatedAt(Date createdAt) {
+  public void setCreatedAt(Timestamp createdAt) {
     this.createdAt = createdAt;
   }
 
-  public Date getUpdatedAt() {
+  public Timestamp getUpdatedAt() {
     return updatedAt;
   }
 
-  public void setUpdatedAt(Date updatedAt) {
+  public void setUpdatedAt(Timestamp updatedAt) {
     this.updatedAt = updatedAt;
   }
 
-  public Date getDeletedAt() {
+  public Timestamp getDeletedAt() {
     return deletedAt;
   }
 
-  public void setDeletedAt(Date deletedAt) {
+  public void setDeletedAt(Timestamp deletedAt) {
     this.deletedAt = deletedAt;
   }
 
@@ -120,11 +130,15 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
     final int prime = 31;
     int result = super.hashCode();
     result = prime * result + ((address == null) ? 0 : address.hashCode());
+    result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+    result = prime * result + ((deletedAt == null) ? 0 : deletedAt.hashCode());
     result = prime * result + ((email == null) ? 0 : email.hashCode());
+    result = prime * result + ((enabled == null) ? 0 : enabled.hashCode());
     result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
     result = prime * result + ((gender == null) ? 0 : gender.hashCode());
     result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
     result = prime * result + ((uniqueId == null) ? 0 : uniqueId.hashCode());
+    result = prime * result + ((updatedAt == null) ? 0 : updatedAt.hashCode());
     return result;
   }
 
@@ -142,10 +156,25 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
         return false;
     } else if (!address.equals(other.address))
       return false;
+    if (createdAt == null) {
+      if (other.createdAt != null)
+        return false;
+    } else if (!createdAt.equals(other.createdAt))
+      return false;
+    if (deletedAt == null) {
+      if (other.deletedAt != null)
+        return false;
+    } else if (!deletedAt.equals(other.deletedAt))
+      return false;
     if (email == null) {
       if (other.email != null)
         return false;
     } else if (!email.equals(other.email))
+      return false;
+    if (enabled == null) {
+      if (other.enabled != null)
+        return false;
+    } else if (!enabled.equals(other.enabled))
       return false;
     if (firstName == null) {
       if (other.firstName != null)
@@ -167,13 +196,19 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
         return false;
     } else if (!uniqueId.equals(other.uniqueId))
       return false;
+    if (updatedAt == null) {
+      if (other.updatedAt != null)
+        return false;
+    } else if (!updatedAt.equals(other.updatedAt))
+      return false;
     return true;
   }
 
   @Override
   public String toString() {
     return "CustomerDTO [uniqueId=" + uniqueId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-      + email + ", address=" + address + ", gender=" + gender + "]";
+      + email + ", address=" + address + ", gender=" + gender + ", enabled=" + enabled + ", createdAt="
+      + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
   }
 
   public Boolean validate() {

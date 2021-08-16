@@ -33,6 +33,10 @@ public class DataMapper {
 		dto.setEmail(customer.getEmail());
 		dto.setAddress(customer.getAddress());
 		dto.setGender(customer.getGender());
+		dto.setEnabled(customer.getEnabled());
+		dto.setCreatedAt(customer.getCreatedAt());
+		dto.setUpdatedAt(customer.getUpdatedAt());
+		dto.setDeletedAt(customer.getDeletedAt());
 
 		return dto;
 	}
@@ -46,6 +50,10 @@ public class DataMapper {
 		customer.setEmail(dto.getEmail());
 		customer.setAddress(dto.getAddress());
 		customer.setGender(dto.getGender());
+		customer.setEnabled(dto.getEnabled());
+		customer.setCreatedAt(dto.getCreatedAt());
+		customer.setUpdatedAt(dto.getUpdatedAt());
+		customer.setDeletedAt(dto.getDeletedAt());
 
 		return customer;
 	}

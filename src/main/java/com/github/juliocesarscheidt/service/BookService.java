@@ -2,8 +2,6 @@ package com.github.juliocesarscheidt.service;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,11 +16,9 @@ import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.repository.BookRepository;
 
 @Service
-public class BookService {
+public class BookService extends BaseService {
   @Autowired
   BookRepository repository;
-
-  private Logger logger = LoggerFactory.getLogger(BookService.class);
 
   public BookDTO findOne(Long id) throws Exception {
     Book entity = repository.findById(id)
@@ -51,6 +47,11 @@ public class BookService {
 
     try {
       Book entity = DataMapper.parseObject(book, Book.class);
+      
+      entity.setCreatedAt(this.getTimestamp());
+      
+      System.out.println(entity.toString());
+      
       return DataMapper.parseObject(repository.save(entity), BookDTO.class);
 
     } catch (Exception e) {
@@ -71,6 +72,10 @@ public class BookService {
     if (book.getLaunchDate() != null) entity.setLaunchDate(book.getLaunchDate());
     if (book.getPrice() != null) entity.setPrice(book.getPrice());
     if (book.getTitle() != null) entity.setTitle(book.getTitle());
+    
+    entity.setUpdatedAt(this.getTimestamp());
+
+    System.out.println(entity.toString());
 
     try {
       return DataMapper.parseObject(repository.save(entity), BookDTO.class);
