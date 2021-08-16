@@ -155,9 +155,9 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
 
   @Override
   public String toString() {
-	return "BookDTO [uniqueId=" + uniqueId + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price
-		+ ", title=" + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
-		+ "]";
+  return "BookDTO [uniqueId=" + uniqueId + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price
+    + ", title=" + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
+    + "]";
   }
 
   public Boolean validate() {
