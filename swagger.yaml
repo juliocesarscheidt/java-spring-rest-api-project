@@ -1,139 +1,607 @@
-openapi: 3.0.0
+swagger: '2.0'
 info:
-  version: "1.0.0"
-  title: "REST API with SpringBoot"
-  description: "Simple customers API - Specification"
-
+  description: Description
+  version: v1
+  title: Restful API with Spring Boot
+  termsOfService: terms Of Service Url
+  contact:
+    name: Julio Cesar
+    email: julio@blackdevs.com.br
+basePath: /
+tags:
+  - name: Auth
+    description: Auth Resource
+  - name: Book
+    description: Book Resource
+  - name: Customer
+    description: Customer Resource
+  - name: Restful API
+    description: Restful API with Spring Boot
 paths:
-  /api/v1/customer:
-    get:
-      tags:
-        - "Customer"
-      summary: Get all Customers
-      responses:
-        200:
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/customers"
-        500:
-          description: Internal Server Error
-
+  /v1/auth/signin:
     post:
       tags:
-        - "Customer"
-      summary: Create an Customer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/customer_payload"
+        - Auth
+      summary: Signin
+      operationId: signinUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: data
+          description: data
+          required: true
+          schema:
+            $ref: '#/definitions/AccountCredentialsDTO'
       responses:
-        201:
+        '200':
+          description: OK
+          schema:
+            type: object
+        '201':
           description: Created
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/customer"
-        500:
-          description: Internal Server Error
-
-  /api/v1/customer/{id}:
-    parameters:
-      - name: id
-        in: path
-        description: Customer ID
-        required: true
-        schema:
-          type: number
-          example: 1
-
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/book:
     get:
       tags:
-        - "Customer"
-      summary: Get an Customer
+        - Book
+      summary: Find All
+      operationId: findUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 50
+          format: int32
       responses:
-        200:
+        '200':
           description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/customer"
-        404:
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/BookDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
           description: Not Found
-        500:
-          description: Internal Server Error
-
-    delete:
+    post:
       tags:
-        - "Customer"
-      summary: Delete an Customer
+        - Book
+      summary: Create
+      operationId: createUsingPOST
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: book
+          description: book
+          required: true
+          schema:
+            $ref: '#/definitions/BookDTOReq'
       responses:
-        204:
-          description: No Content
-        500:
-          description: Internal Server Error
-
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/BookDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/book/{id}:
+    get:
+      tags:
+        - Book
+      summary: Find One
+      operationId: findOneUsingGET
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/BookDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
     put:
       tags:
-        - "Customer"
-      summary: Update an Customer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/customer_payload"
+        - Book
+      summary: Update
+      operationId: updateUsingPUT
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: book
+          description: book
+          required: true
+          schema:
+            $ref: '#/definitions/BookDTOReq'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
       responses:
-        202:
+        '201':
+          description: Created
+        '202':
           description: Accepted
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/customer"
-        500:
-          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/BookDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - Book
+      summary: Delete
+      operationId: deleteUsingDELETE
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /v1/customer:
+    get:
+      tags:
+        - Customer
+      summary: Find All
+      operationId: findUsingGET_1
+      produces:
+        - application/json
+      parameters:
+        - name: page
+          in: query
+          description: page
+          required: false
+          type: integer
+          default: 0
+          format: int32
+        - name: size
+          in: query
+          description: size
+          required: false
+          type: integer
+          default: 50
+          format: int32
+      responses:
+        '200':
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    post:
+      tags:
+        - Customer
+      summary: Create
+      operationId: createUsingPOST_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customer
+          description: customer
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerDTOReq'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+  /v1/customer/{id}:
+    get:
+      tags:
+        - Customer
+      summary: Find One
+      operationId: findOneUsingGET_1
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    put:
+      tags:
+        - Customer
+      summary: Update
+      operationId: updateUsingPUT_1
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: customer
+          description: customer
+          required: true
+          schema:
+            $ref: '#/definitions/CustomerDTOReq'
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '201':
+          description: Created
+        '202':
+          description: Accepted
+          schema:
+            $ref: '#/definitions/CustomerDTORes'
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+        '404':
+          description: Not Found
+    delete:
+      tags:
+        - Customer
+      summary: Delete
+      operationId: deleteUsingDELETE_1
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /v1/customer/{id}/disable:
+    patch:
+      tags:
+        - Customer
+      summary: Disable
+      operationId: disableUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+  /v1/customer/{id}/enable:
+    patch:
+      tags:
+        - Customer
+      summary: Enable
+      operationId: enableUsingPATCH
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: id
+          in: path
+          description: id
+          required: true
+          type: integer
+          format: int64
+      responses:
+        '204':
+          description: No Content
+          schema:
+            type: object
+        '401':
+          description: Unauthorized
+        '403':
+          description: Forbidden
+definitions:
+  AccountCredentialsDTO:
+    type: object
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    title: AccountCredentialsDTO
+  BookDTOReq:
+    type: object
+    properties:
+      author:
+        type: string
+      created_at:
+        $ref: '#/definitions/TimestampReq'
+      deleted_at:
+        $ref: '#/definitions/TimestampReq'
+      id:
+        type: integer
+        format: int64
+      launch_date:
+        type: string
+        format: date-time
+      links:
+        type: array
+        items:
+          $ref: '#/definitions/Link'
+      price:
+        type: number
+        format: double
+      title:
+        type: string
+      updated_at:
+        $ref: '#/definitions/TimestampReq'
+    title: BookDTOReq
+  BookDTORes:
+    type: object
+    properties:
+      author:
+        type: string
+      created_at:
+        $ref: '#/definitions/TimestampRes'
+      deleted_at:
+        $ref: '#/definitions/TimestampRes'
+      id:
+        type: integer
+        format: int64
+      launch_date:
+        type: string
+        format: date-time
+      links:
+        $ref: '#/definitions/Links'
+      price:
+        type: number
+        format: double
+      title:
+        type: string
+      updated_at:
+        $ref: '#/definitions/TimestampRes'
+    title: BookDTORes
+  CustomerDTOReq:
+    type: object
+    properties:
+      address:
+        type: string
+      created_at:
+        $ref: '#/definitions/TimestampReq'
+      deleted_at:
+        $ref: '#/definitions/TimestampReq'
+      email:
+        type: string
+      enabled:
+        type: boolean
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+        format: int64
+      last_name:
+        type: string
+      links:
+        type: array
+        items:
+          $ref: '#/definitions/Link'
+      updated_at:
+        $ref: '#/definitions/TimestampReq'
+    title: CustomerDTOReq
+  CustomerDTORes:
+    type: object
+    properties:
+      address:
+        type: string
+      created_at:
+        $ref: '#/definitions/TimestampRes'
+      deleted_at:
+        $ref: '#/definitions/TimestampRes'
+      email:
+        type: string
+      enabled:
+        type: boolean
+      first_name:
+        type: string
+      gender:
+        type: string
+      id:
+        type: integer
+        format: int64
+      last_name:
+        type: string
+      links:
+        $ref: '#/definitions/Links'
+      updated_at:
+        $ref: '#/definitions/TimestampRes'
+    title: CustomerDTORes
+  Link:
+    type: object
+    properties:
+      deprecation:
+        type: string
+      href:
+        type: string
+      hreflang:
+        type: string
+      media:
+        type: string
+      name:
+        type: string
+      profile:
+        type: string
+      rel:
+        $ref: '#/definitions/LinkRelation'
+      title:
+        type: string
+      type:
+        type: string
+    title: Link
+  LinkRelation:
+    type: object
+    title: LinkRelation
+  Links:
+    type: object
+    properties:
+      empty:
+        type: boolean
+    title: Links
+  TimestampReq:
+    type: object
+    properties:
+      date:
+        type: integer
+        format: int32
+      hours:
+        type: integer
+        format: int32
+      minutes:
+        type: integer
+        format: int32
+      month:
+        type: integer
+        format: int32
+      nanos:
+        type: integer
+        format: int32
+      seconds:
+        type: integer
+        format: int32
+      time:
+        type: integer
+        format: int64
+      year:
+        type: integer
+        format: int32
+    title: TimestampReq
+  TimestampRes:
+    type: object
+    properties:
+      date:
+        type: integer
+        format: int32
+      day:
+        type: integer
+        format: int32
+      hours:
+        type: integer
+        format: int32
+      minutes:
+        type: integer
+        format: int32
+      month:
+        type: integer
+        format: int32
+      nanos:
+        type: integer
+        format: int32
+      seconds:
+        type: integer
+        format: int32
+      time:
+        type: integer
+        format: int64
+      timezoneOffset:
+        type: integer
+        format: int32
+      year:
+        type: integer
+        format: int32
+    title: TimestampRes
 
-components:
-  schemas:
-    customers:
-      type: array
-      items:
-        $ref: "#/components/schemas/customer"
-
-    customer:
-      allOf:
-        - type: object
-          properties:
-            id:
-              type: number
-              example: 1
-        - $ref: "#/components/schemas/customer_payload"
-
-    customer_payload:
-      type: object
-      required:
-        - first_name
-        - last_name
-        - email
-        - address
-        - gender
-      properties:
-        first_name:
-          type: string
-          example: "first name"
-        last_name:
-          type: string
-          example: "last name"
-        email:
-          type: string
-          example: "customer@mail.com"
-        address:
-          type: string
-          example: "address"
-        gender:
-          type: string
-          enum: ["Male", "Female"]
-          example: "Male"
