@@ -6,14 +6,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.github.juliocesarscheidt.config.FileStorageConfig;
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@EnableConfigurationProperties(FileStorageConfig.class)
 @EnableAutoConfiguration
 @ComponentScan
 @EnableSwagger2
@@ -21,9 +25,9 @@ public class Application {
   public static void main(String[] args) {
     SpringApplication.run(Application.class, args);
 
-	// encrypts a password with bcrypt
-	// BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
-	// System.out.println(encoder.encode("password1234"));
+    // encrypts a password with bcrypt
+    // BCryptPasswordEncoder encoder = new BCryptPasswordEncoder(16);
+    // System.out.println(encoder.encode("password1234"));
   }
 
   @Bean
