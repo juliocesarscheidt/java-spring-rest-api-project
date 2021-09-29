@@ -1,9 +1,7 @@
 package com.github.juliocesarscheidt.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +18,10 @@ public class BookService extends BaseService {
   @Autowired
   BookRepository repository;
 
+  private BookDTO convertToBookDTO(Book entity) {
+    return DataMapper.parseObject(entity, BookDTO.class);
+  }
+
   public BookDTO findOne(Long id) throws Exception {
     Book entity = repository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
@@ -27,12 +29,21 @@ public class BookService extends BaseService {
     return DataMapper.parseObject(entity, BookDTO.class);
   }
 
-  public List<BookDTO> find(Integer page, Integer size) throws Exception {
-    Pageable pageable = PageRequest.of(page, size);
-    List<Book> books = repository.findAll(pageable).getContent();
-
+  public Page<BookDTO> find(Pageable pageable) throws Exception {
     try {
-      return DataMapper.parseObjects(books, BookDTO.class);
+      Page<Book> books = repository.findAll(pageable);
+      return books.map(this::convertToBookDTO);
+
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+
+  public Page<BookDTO> findByAuthor(String author, Pageable pageable) throws Exception {
+    try {
+      Page<Book> books = repository.findByAuthor(author, pageable);
+      return books.map(this::convertToBookDTO);
 
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
@@ -47,11 +58,9 @@ public class BookService extends BaseService {
 
     try {
       Book entity = DataMapper.parseObject(book, Book.class);
-      
+
       entity.setCreatedAt(this.getTimestamp());
-      
-      System.out.println(entity.toString());
-      
+
       return DataMapper.parseObject(repository.save(entity), BookDTO.class);
 
     } catch (Exception e) {
@@ -72,10 +81,8 @@ public class BookService extends BaseService {
     if (book.getLaunchDate() != null) entity.setLaunchDate(book.getLaunchDate());
     if (book.getPrice() != null) entity.setPrice(book.getPrice());
     if (book.getTitle() != null) entity.setTitle(book.getTitle());
-    
-    entity.setUpdatedAt(this.getTimestamp());
 
-    System.out.println(entity.toString());
+    entity.setUpdatedAt(this.getTimestamp());
 
     try {
       return DataMapper.parseObject(repository.save(entity), BookDTO.class);

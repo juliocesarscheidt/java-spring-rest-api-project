@@ -14,11 +14,6 @@ public class BaseService {
 
   protected Timestamp getTimestamp() {
     ZonedDateTime zdt = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("America/Sao_Paulo"));
-    // ZonedDateTime zdt = ZonedDateTime.now(ZoneId.of("America/Sao_Paulo"));
-    System.out.println(zdt);
-    Timestamp ts = Timestamp.valueOf(zdt.toLocalDateTime());
-    System.out.println(ts);
-
-    return ts;
+    return Timestamp.valueOf(zdt.toLocalDateTime());
   }
 }

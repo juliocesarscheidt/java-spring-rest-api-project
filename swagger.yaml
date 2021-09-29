@@ -543,65 +543,12 @@ definitions:
         type: boolean
     title: Links
   TimestampReq:
-    type: object
-    properties:
-      date:
-        type: integer
-        format: int32
-      hours:
-        type: integer
-        format: int32
-      minutes:
-        type: integer
-        format: int32
-      month:
-        type: integer
-        format: int32
-      nanos:
-        type: integer
-        format: int32
-      seconds:
-        type: integer
-        format: int32
-      time:
-        type: integer
-        format: int64
-      year:
-        type: integer
-        format: int32
+    type: string
+    format: date-time
+    example: "2021-01-01T00:00:00.000Z"
     title: TimestampReq
   TimestampRes:
-    type: object
-    properties:
-      date:
-        type: integer
-        format: int32
-      day:
-        type: integer
-        format: int32
-      hours:
-        type: integer
-        format: int32
-      minutes:
-        type: integer
-        format: int32
-      month:
-        type: integer
-        format: int32
-      nanos:
-        type: integer
-        format: int32
-      seconds:
-        type: integer
-        format: int32
-      time:
-        type: integer
-        format: int64
-      timezoneOffset:
-        type: integer
-        format: int32
-      year:
-        type: integer
-        format: int32
+    type: string
+    format: date-time
+    example: "2021-01-01T00:00:00.000Z"
     title: TimestampRes
-
