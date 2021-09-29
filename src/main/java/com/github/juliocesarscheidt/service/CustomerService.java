@@ -1,9 +1,7 @@
 package com.github.juliocesarscheidt.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +19,10 @@ public class CustomerService extends BaseService {
   @Autowired
   CustomerRepository repository;
 
+  private CustomerDTO convertToCustomerDTO(Customer entity) {
+    return DataMapper.parseObject(entity, CustomerDTO.class);
+  }
+
   public CustomerDTO findOne(Long id) throws Exception {
     Customer entity = repository.findById(id)
       .orElseThrow(() -> new EntityNotFoundException("Customer Not Found"));
@@ -28,12 +30,21 @@ public class CustomerService extends BaseService {
     return DataMapper.parseObject(entity, CustomerDTO.class);
   }
 
-  public List<CustomerDTO> find(Integer page, Integer size) throws Exception {
+  public Page<CustomerDTO> find(Pageable pageable) throws Exception {
     try {
-      Pageable pageable = PageRequest.of(page, size);
-      List<Customer> customers = repository.findAll(pageable).getContent();
+      Page<Customer> customers = repository.findAll(pageable);
+      return customers.map(this::convertToCustomerDTO);
 
-      return DataMapper.parseObjects(customers, CustomerDTO.class);
+    } catch (Exception e) {
+      logger.error("Error caught " + e.getMessage());
+      throw new ServerErrorException("Internal Server Error");
+    }
+  }
+
+  public Page<CustomerDTO> findByName(String firstName, Pageable pageable) throws Exception {
+    try {
+      Page<Customer> customers = repository.findByName(firstName, pageable);
+      return customers.map(this::convertToCustomerDTO);
 
     } catch (Exception e) {
       logger.error("Error caught " + e.getMessage());
@@ -51,8 +62,6 @@ public class CustomerService extends BaseService {
 
       entity.setCreatedAt(this.getTimestamp());
       entity.setEnabled(true);
-
-      System.out.println(entity.toString());
 
       return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
 
@@ -78,8 +87,6 @@ public class CustomerService extends BaseService {
 
     entity.setUpdatedAt(this.getTimestamp());
     entity.setEnabled(true);
-
-    System.out.println(entity.toString());
 
     try {
       return DataMapper.parseObject(repository.save(entity), CustomerDTO.class);
