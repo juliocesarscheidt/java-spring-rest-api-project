@@ -8,3 +8,5 @@ COPY . .
 RUN mvn --batch-mode package --file pom.xml -D skipTests
 
 CMD java $JAVA_OPTIONS -jar /usr/src/app/target/app.jar
+
+# mvn clean spring-boot:run
