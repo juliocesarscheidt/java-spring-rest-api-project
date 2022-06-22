@@ -1,8 +1,10 @@
 package com.github.juliocesarscheidt.handler;
 
+import com.github.juliocesarscheidt.exception.BadRequestException;
+import com.github.juliocesarscheidt.exception.InvalidJwtAuthenticationException;
+import com.github.juliocesarscheidt.exception.ResponseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,43 +13,38 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import com.github.juliocesarscheidt.exception.ResponseException;
-import com.github.juliocesarscheidt.exception.BadRequestException;
-import com.github.juliocesarscheidt.exception.InvalidJwtAuthenticationException;
-
 @RestControllerAdvice
 @RestController
 public class CustomResponseExceptionHandler extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(Exception.class)
   public final ResponseEntity<ResponseException> handleExceptions(Exception ex, WebRequest req) {
-    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-      .format(new Date());
+    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(new Date());
 
-    ResponseException responseException = new ResponseException(
-      formatted, ex.getMessage(), req.getDescription(false));
+    ResponseException responseException =
+        new ResponseException(formatted, ex.getMessage(), req.getDescription(false));
 
     return new ResponseEntity<>(responseException, HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(BadRequestException.class)
-  public final ResponseEntity<ResponseException> handleBadRequestExceptions(Exception ex, WebRequest req) {
-    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-      .format(new Date());
+  public final ResponseEntity<ResponseException> handleBadRequestExceptions(
+      Exception ex, WebRequest req) {
+    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(new Date());
 
-    ResponseException responseException = new ResponseException(
-      formatted, ex.getMessage(), req.getDescription(false));
+    ResponseException responseException =
+        new ResponseException(formatted, ex.getMessage(), req.getDescription(false));
 
     return new ResponseEntity<>(responseException, HttpStatus.BAD_REQUEST);
   }
-  
-  @ExceptionHandler(InvalidJwtAuthenticationException.class)
-  public final ResponseEntity<ResponseException> handleInvalidJwtAuthenticationException(Exception ex, WebRequest req) {
-    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
-      .format(new Date());
 
-    ResponseException responseException = new ResponseException(
-      formatted, ex.getMessage(), req.getDescription(false));
+  @ExceptionHandler(InvalidJwtAuthenticationException.class)
+  public final ResponseEntity<ResponseException> handleInvalidJwtAuthenticationException(
+      Exception ex, WebRequest req) {
+    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(new Date());
+
+    ResponseException responseException =
+        new ResponseException(formatted, ex.getMessage(), req.getDescription(false));
 
     return new ResponseEntity<>(responseException, HttpStatus.BAD_REQUEST);
   }

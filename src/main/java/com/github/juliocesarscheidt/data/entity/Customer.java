@@ -2,7 +2,6 @@ package com.github.juliocesarscheidt.data.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,23 +11,23 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name="customer", uniqueConstraints=@UniqueConstraint(columnNames={"email"}))
+@Table(name = "customer", uniqueConstraints = @UniqueConstraint(columnNames = {"email"}))
 public class Customer implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   // data mapping
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @Column(name="first_name", nullable = false, length = 100)
+  @Column(name = "first_name", nullable = false, length = 100)
   private String firstName;
 
-  @Column(name="last_name", nullable = false, length = 100)
+  @Column(name = "last_name", nullable = false, length = 100)
   private String lastName;
 
-  @Column(nullable = false, length = 255, unique=true)
+  @Column(nullable = false, length = 255, unique = true)
   private String email;
 
   @Column(nullable = true, length = 255)
@@ -40,13 +39,13 @@ public class Customer implements Serializable {
   @Column(nullable = false)
   private Boolean enabled;
 
-  @Column(name="created_at", nullable = false)
+  @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
-  @Column(name="updated_at", nullable = true)
+  @Column(name = "updated_at", nullable = true)
   private Timestamp updatedAt;
 
-  @Column(name="deleted_at", nullable = true)
+  @Column(name = "deleted_at", nullable = true)
   private Timestamp deletedAt;
 
   // constructor
@@ -102,11 +101,11 @@ public class Customer implements Serializable {
   }
 
   public Boolean getEnabled() {
-  return enabled;
+    return enabled;
   }
 
   public void setEnabled(Boolean enabled) {
-  this.enabled = enabled;
+    this.enabled = enabled;
   }
 
   public Timestamp getCreatedAt() {
@@ -152,70 +151,65 @@ public class Customer implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     Customer other = (Customer) obj;
     if (address == null) {
-      if (other.address != null)
-        return false;
-    } else if (!address.equals(other.address))
-      return false;
+      if (other.address != null) return false;
+    } else if (!address.equals(other.address)) return false;
     if (createdAt == null) {
-      if (other.createdAt != null)
-        return false;
-    } else if (!createdAt.equals(other.createdAt))
-      return false;
+      if (other.createdAt != null) return false;
+    } else if (!createdAt.equals(other.createdAt)) return false;
     if (deletedAt == null) {
-      if (other.deletedAt != null)
-        return false;
-    } else if (!deletedAt.equals(other.deletedAt))
-      return false;
+      if (other.deletedAt != null) return false;
+    } else if (!deletedAt.equals(other.deletedAt)) return false;
     if (email == null) {
-      if (other.email != null)
-        return false;
-    } else if (!email.equals(other.email))
-      return false;
+      if (other.email != null) return false;
+    } else if (!email.equals(other.email)) return false;
     if (enabled == null) {
-      if (other.enabled != null)
-        return false;
-    } else if (!enabled.equals(other.enabled))
-      return false;
+      if (other.enabled != null) return false;
+    } else if (!enabled.equals(other.enabled)) return false;
     if (firstName == null) {
-      if (other.firstName != null)
-        return false;
-    } else if (!firstName.equals(other.firstName))
-      return false;
+      if (other.firstName != null) return false;
+    } else if (!firstName.equals(other.firstName)) return false;
     if (gender == null) {
-      if (other.gender != null)
-        return false;
-    } else if (!gender.equals(other.gender))
-      return false;
+      if (other.gender != null) return false;
+    } else if (!gender.equals(other.gender)) return false;
     if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
-      return false;
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
     if (lastName == null) {
-      if (other.lastName != null)
-        return false;
-    } else if (!lastName.equals(other.lastName))
-      return false;
+      if (other.lastName != null) return false;
+    } else if (!lastName.equals(other.lastName)) return false;
     if (updatedAt == null) {
-      if (other.updatedAt != null)
-        return false;
-    } else if (!updatedAt.equals(other.updatedAt))
-      return false;
+      if (other.updatedAt != null) return false;
+    } else if (!updatedAt.equals(other.updatedAt)) return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Customer [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-      + ", address=" + address + ", gender=" + gender + ", enabled=" + enabled + ", createdAt=" + createdAt
-      + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+    return "Customer [id="
+        + id
+        + ", firstName="
+        + firstName
+        + ", lastName="
+        + lastName
+        + ", email="
+        + email
+        + ", address="
+        + address
+        + ", gender="
+        + gender
+        + ", enabled="
+        + enabled
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", deletedAt="
+        + deletedAt
+        + "]";
   }
 }

@@ -15,8 +15,6 @@ tags:
     description: Book Resource
   - name: Customer
     description: Customer Resource
-  - name: Restful API
-    description: Restful API with Spring Boot
 paths:
   /v1/auth/signin:
     post:

@@ -6,5 +6,4 @@ import org.slf4j.LoggerFactory;
 public class BaseResource {
 
   protected Logger logger = LoggerFactory.getLogger(BaseResource.class);
-
 }

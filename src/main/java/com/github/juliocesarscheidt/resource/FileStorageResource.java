@@ -1,7 +1,10 @@
 package com.github.juliocesarscheidt.resource;
 
+import com.github.juliocesarscheidt.data.dto.FileStorageResponseDTO;
+import com.github.juliocesarscheidt.service.FileStorageService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,39 +23,41 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.github.juliocesarscheidt.data.dto.FileStorageResponseDTO;
-import com.github.juliocesarscheidt.service.FileStorageService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-@Api(value = "File Endpoint", tags = {"File"})
+@Api(
+    value = "File Endpoint",
+    tags = {"File"})
 @RestController
 @RequestMapping("/v1/file")
 public class FileStorageResource extends BaseResource {
 
   protected Logger logger = LoggerFactory.getLogger(FileStorageResource.class);
 
-  @Autowired
-  private FileStorageService fileStorageService;
+  @Autowired private FileStorageService fileStorageService;
 
   @ApiOperation(value = "Upload File")
-  @PostMapping(value = "/uploadFile", produces = {"application/json"})
+  @PostMapping(
+      value = "/uploadFile",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
   public FileStorageResponseDTO uploadFile(@RequestParam("file") MultipartFile file) {
     String fileName = fileStorageService.storeFile(file);
-    String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath()
-      .path("/v1/file/downloadFile/")
-      .path(fileName)
-      .toUriString();
+    String fileDownloadUri =
+        ServletUriComponentsBuilder.fromCurrentContextPath()
+            .path("/v1/file/downloadFile/")
+            .path(fileName)
+            .toUriString();
 
-    return new FileStorageResponseDTO(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+    return new FileStorageResponseDTO(
+        fileName, fileDownloadUri, file.getContentType(), file.getSize());
   }
 
   @ApiOperation(value = "Download File")
-  @GetMapping(value = "/downloadFile/{fileName:.+}", produces = {"application/json"})
+  @GetMapping(
+      value = "/downloadFile/{fileName:.+}",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
-  public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+  public ResponseEntity<Resource> downloadFile(
+      @PathVariable String fileName, HttpServletRequest request) {
     Resource resource = fileStorageService.loadFileAsResource(fileName);
     String contentType = null;
 
@@ -67,8 +72,10 @@ public class FileStorageResource extends BaseResource {
     }
 
     return ResponseEntity.ok()
-      .contentType(MediaType.parseMediaType(contentType))
-      .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
-      .body(resource);
+        .contentType(MediaType.parseMediaType(contentType))
+        .header(
+            HttpHeaders.CONTENT_DISPOSITION,
+            "attachment; filename=\"" + resource.getFilename() + "\"")
+        .body(resource);
   }
 }

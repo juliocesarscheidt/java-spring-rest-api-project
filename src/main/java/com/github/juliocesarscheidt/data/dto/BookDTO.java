@@ -1,16 +1,23 @@
 package com.github.juliocesarscheidt.data.dto;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-import java.util.Date;
-
-import org.springframework.hateoas.RepresentationModel;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import java.util.Date;
+import org.springframework.hateoas.RepresentationModel;
 
-@JsonPropertyOrder({"id", "author", "launch_date", "price", "title", "created_at", "updated_at", "deleted_at"})
+@JsonPropertyOrder({
+  "id",
+  "author",
+  "launch_date",
+  "price",
+  "title",
+  "created_at",
+  "updated_at",
+  "deleted_at"
+})
 public class BookDTO extends RepresentationModel<BookDTO> implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -118,46 +125,47 @@ public class BookDTO extends RepresentationModel<BookDTO> implements Serializabl
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
     BookDTO other = (BookDTO) obj;
     if (author == null) {
-      if (other.author != null)
-        return false;
-    } else if (!author.equals(other.author))
-      return false;
+      if (other.author != null) return false;
+    } else if (!author.equals(other.author)) return false;
     if (launchDate == null) {
-      if (other.launchDate != null)
-        return false;
-    } else if (!launchDate.equals(other.launchDate))
-      return false;
+      if (other.launchDate != null) return false;
+    } else if (!launchDate.equals(other.launchDate)) return false;
     if (price == null) {
-      if (other.price != null)
-        return false;
-    } else if (!price.equals(other.price))
-      return false;
+      if (other.price != null) return false;
+    } else if (!price.equals(other.price)) return false;
     if (title == null) {
-      if (other.title != null)
-        return false;
-    } else if (!title.equals(other.title))
-      return false;
+      if (other.title != null) return false;
+    } else if (!title.equals(other.title)) return false;
     if (uniqueId == null) {
-      if (other.uniqueId != null)
-        return false;
-    } else if (!uniqueId.equals(other.uniqueId))
-      return false;
+      if (other.uniqueId != null) return false;
+    } else if (!uniqueId.equals(other.uniqueId)) return false;
     return true;
   }
 
   @Override
   public String toString() {
-  return "BookDTO [uniqueId=" + uniqueId + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price
-    + ", title=" + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt
-    + "]";
+    return "BookDTO [uniqueId="
+        + uniqueId
+        + ", author="
+        + author
+        + ", launchDate="
+        + launchDate
+        + ", price="
+        + price
+        + ", title="
+        + title
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", deletedAt="
+        + deletedAt
+        + "]";
   }
 
   public Boolean validate() {

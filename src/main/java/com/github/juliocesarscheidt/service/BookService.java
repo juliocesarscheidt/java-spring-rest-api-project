@@ -1,10 +1,5 @@
 package com.github.juliocesarscheidt.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
-
 import com.github.juliocesarscheidt.data.dto.BookDTO;
 import com.github.juliocesarscheidt.data.entity.Book;
 import com.github.juliocesarscheidt.data.mapper.DataMapper;
@@ -12,19 +7,22 @@ import com.github.juliocesarscheidt.exception.BadRequestException;
 import com.github.juliocesarscheidt.exception.EntityNotFoundException;
 import com.github.juliocesarscheidt.exception.ServerErrorException;
 import com.github.juliocesarscheidt.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 @Service
 public class BookService extends BaseService {
-  @Autowired
-  BookRepository repository;
+  @Autowired BookRepository repository;
 
   private BookDTO convertToBookDTO(Book entity) {
     return DataMapper.parseObject(entity, BookDTO.class);
   }
 
   public BookDTO findOne(Long id) throws Exception {
-    Book entity = repository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+    Book entity =
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
     return DataMapper.parseObject(entity, BookDTO.class);
   }
@@ -74,8 +72,8 @@ public class BookService extends BaseService {
       throw new BadRequestException("Invalid Attributes");
     }
 
-    Book entity = repository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+    Book entity =
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
     if (book.getAuthor() != null) entity.setAuthor(book.getAuthor());
     if (book.getLaunchDate() != null) entity.setLaunchDate(book.getLaunchDate());
@@ -94,8 +92,8 @@ public class BookService extends BaseService {
   }
 
   public void delete(Long id) throws Exception {
-    Book entity = repository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
+    Book entity =
+        repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Book Not Found"));
 
     try {
       repository.delete(entity);

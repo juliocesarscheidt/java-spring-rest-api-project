@@ -3,8 +3,12 @@ package com.github.juliocesarscheidt.resource;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+import com.github.juliocesarscheidt.data.dto.CustomerDTO;
+import com.github.juliocesarscheidt.exception.ServerErrorException;
+import com.github.juliocesarscheidt.service.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import java.util.function.Consumer;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,20 +30,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.github.juliocesarscheidt.data.dto.CustomerDTO;
-import com.github.juliocesarscheidt.exception.ServerErrorException;
-import com.github.juliocesarscheidt.service.CustomerService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-@Api(value = "Customer Endpoint", tags = {"Customer"})
+@Api(
+    value = "Customer Endpoint",
+    tags = {"Customer"})
 @RestController
 @RequestMapping("/v1/customer")
 public class CustomerResource extends BaseResource {
 
-  @Autowired
-  private CustomerService customerService;
+  @Autowired private CustomerService customerService;
 
   protected Logger logger = LoggerFactory.getLogger(CustomerResource.class);
 
@@ -52,10 +50,13 @@ public class CustomerResource extends BaseResource {
     }
   }
 
-  protected Consumer<CustomerDTO> addLinkConsumer = entity -> addLinkToDto(entity, entity.getUniqueId());
+  protected Consumer<CustomerDTO> addLinkConsumer =
+      entity -> addLinkToDto(entity, entity.getUniqueId());
 
   @ApiOperation(value = "Find One")
-  @GetMapping(value = "/{id}", produces = {"application/json"})
+  @GetMapping(
+      value = "/{id}",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
   public CustomerDTO findOne(@PathVariable("id") Long id) throws Exception {
     CustomerDTO dto = customerService.findOne(id);
@@ -68,9 +69,9 @@ public class CustomerResource extends BaseResource {
   @GetMapping(produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
   public ResponseEntity<Page<CustomerDTO>> find(
-    @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @RequestParam(value = "size", defaultValue = "50") Integer size
-  ) throws Exception {
+      @RequestParam(value = "page", defaultValue = "0") Integer page,
+      @RequestParam(value = "size", defaultValue = "50") Integer size)
+      throws Exception {
     Pageable pageable = PageRequest.of(page, size);
     Page<CustomerDTO> customers = customerService.find(pageable);
     customers.stream().forEach(this.addLinkConsumer);
@@ -79,13 +80,15 @@ public class CustomerResource extends BaseResource {
   }
 
   @ApiOperation(value = "Find by Name")
-  @GetMapping(value = "/findByName/{firstName}", produces = {"application/json"})
+  @GetMapping(
+      value = "/findByName/{firstName}",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.OK)
   public ResponseEntity<Page<CustomerDTO>> findByName(
-    @PathVariable("firstName") String firstName,
-    @RequestParam(value = "page", defaultValue = "0") Integer page,
-    @RequestParam(value = "size", defaultValue = "50") Integer size
-  ) throws Exception {
+      @PathVariable("firstName") String firstName,
+      @RequestParam(value = "page", defaultValue = "0") Integer page,
+      @RequestParam(value = "size", defaultValue = "50") Integer size)
+      throws Exception {
     Pageable pageable = PageRequest.of(page, size);
     Page<CustomerDTO> customers = customerService.findByName(firstName, pageable);
     customers.stream().forEach(this.addLinkConsumer);
@@ -104,9 +107,12 @@ public class CustomerResource extends BaseResource {
   }
 
   @ApiOperation(value = "Update")
-  @PutMapping(value = "/{id}", produces = {"application/json"})
+  @PutMapping(
+      value = "/{id}",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.ACCEPTED)
-  public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer) throws Exception {
+  public CustomerDTO update(@PathVariable("id") Long id, @RequestBody CustomerDTO customer)
+      throws Exception {
     CustomerDTO dto = customerService.update(id, customer);
     addLinkToDto(dto, id);
 
@@ -114,7 +120,9 @@ public class CustomerResource extends BaseResource {
   }
 
   @ApiOperation(value = "Delete")
-  @DeleteMapping(value = "/{id}", produces = {"application/json"})
+  @DeleteMapping(
+      value = "/{id}",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> delete(@PathVariable("id") Long id) throws Exception {
     customerService.delete(id);
@@ -123,7 +131,9 @@ public class CustomerResource extends BaseResource {
   }
 
   @ApiOperation(value = "Disable")
-  @PatchMapping(value = "/{id}/disable", produces = {"application/json"})
+  @PatchMapping(
+      value = "/{id}/disable",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> disable(@PathVariable("id") Long id) throws Exception {
     customerService.disable(id);
@@ -132,7 +142,9 @@ public class CustomerResource extends BaseResource {
   }
 
   @ApiOperation(value = "Enable")
-  @PatchMapping(value = "/{id}/enable", produces = {"application/json"})
+  @PatchMapping(
+      value = "/{id}/enable",
+      produces = {"application/json"})
   @ResponseStatus(code = HttpStatus.NO_CONTENT)
   public ResponseEntity<?> enable(@PathVariable("id") Long id) throws Exception {
     customerService.enable(id);

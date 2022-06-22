@@ -10,12 +10,13 @@ public class FileStorageResponseDTO implements Serializable {
   private String fileDownloadUri;
   private String fileType;
   private long fileSize;
-  
-  public FileStorageResponseDTO(String fileName, String fileDownloadUri, String fileType, long fileSize) {
-	this.fileName = fileName;
-	this.fileDownloadUri = fileDownloadUri;
-	this.fileType = fileType;
-	this.fileSize = fileSize;
+
+  public FileStorageResponseDTO(
+      String fileName, String fileDownloadUri, String fileType, long fileSize) {
+    this.fileName = fileName;
+    this.fileDownloadUri = fileDownloadUri;
+    this.fileType = fileType;
+    this.fileSize = fileSize;
   }
 
   public String getFileName() {

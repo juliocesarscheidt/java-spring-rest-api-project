@@ -1,15 +1,14 @@
 package com.github.juliocesarscheidt.data.mapper;
 
+import com.github.juliocesarscheidt.data.dto.CustomerDTO;
+import com.github.juliocesarscheidt.data.entity.Customer;
+import com.github.juliocesarscheidt.data.mapper.mock.CustomerMock;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.github.juliocesarscheidt.data.dto.CustomerDTO;
-import com.github.juliocesarscheidt.data.entity.Customer;
-import com.github.juliocesarscheidt.data.mapper.mock.CustomerMock;
-
 public class DataMapperTest {
-	CustomerMock inputObject;
+  CustomerMock inputObject;
 
   @Before
   public void setUp() {

@@ -1,13 +1,12 @@
 package com.github.juliocesarscheidt.data.mapper.mock;
 
+import com.github.juliocesarscheidt.data.dto.CustomerDTO;
+import com.github.juliocesarscheidt.data.entity.Customer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.github.juliocesarscheidt.data.dto.CustomerDTO;
-import com.github.juliocesarscheidt.data.entity.Customer;
-
 public class CustomerMock {
-	public Customer mockEntity() {
+  public Customer mockEntity() {
     return mockEntity(0);
   }
 
@@ -46,20 +45,20 @@ public class CustomerMock {
     customer.setGender(((number % 2) == 0) ? "Male" : "Female");
 
     return customer;
-	}
+  }
 
-	private CustomerDTO mockDTO(Integer number) {
-		CustomerDTO customer = new CustomerDTO();
-		// setting unique ID
-		customer.setUniqueId(number.longValue());
+  private CustomerDTO mockDTO(Integer number) {
+    CustomerDTO customer = new CustomerDTO();
+    // setting unique ID
+    customer.setUniqueId(number.longValue());
 
-		customer.setAddress("address_" + number);
-		customer.setFirstName("firstName_" + number);
-		customer.setLastName("lastName_" + number);
-		customer.setEmail("email_" + number);
+    customer.setAddress("address_" + number);
+    customer.setFirstName("firstName_" + number);
+    customer.setLastName("lastName_" + number);
+    customer.setEmail("email_" + number);
 
-		customer.setGender(((number % 2) == 0) ? "Male" : "Female");
+    customer.setGender(((number % 2) == 0) ? "Male" : "Female");
 
     return customer;
-	}
+  }
 }

@@ -45,31 +45,41 @@ mvn flyway:migrate
 mvn clean package spring-boot:run
 ```
 
+## Format Java code with Standards
+
+```bash
+mvn com.spotify.fmt:fmt-maven-plugin:format
+```
+
 ## Usage
 
 > The API is available on port 8000 externally:
 
 ```bash
 # check healthcheck
-curl --silent -X GET --url 'http://localhost:8000/actuator/health'
+curl --silent -X GET --url "http://localhost:8000/actuator/health"
 
 # check prometheus client (spring actuator)
-curl --silent -X GET --url 'http://localhost:8000/actuator/prometheus'
+curl --silent -X GET --url "http://localhost:8000/actuator/prometheus"
+
+# readiness and liveness
+curl --silent -X GET --url "http://localhost:8000/actuator/health/readiness"
+curl --silent -X GET --url "http://localhost:8000/actuator/health/liveness"
 
 
 # check prometheus server
 AUTH="$(echo -n 'admin:admin' | base64 -w0)"
 curl --silent -X GET -H "Authorization: Basic ${AUTH}" \
-  'http://localhost:9090/metrics'
+  "http://localhost:9090/metrics"
 
 
 # get token
-DATA='{"username": "julio",	"password": "password1234"}'
+DATA='{"username": "julio", "password": "password1234"}'
 TOKEN=$(curl --silent \
   -X POST \
   -H 'Content-type: application/json' \
   --data-raw "${DATA}" \
-  --url 'http://localhost:8000/v1/auth/signin' | jq -r '.token')
+  --url "http://localhost:8000/v1/auth/signin" | jq -r '.token')
 echo "${TOKEN}"
 
 
@@ -81,21 +91,21 @@ curl --silent -X POST \
   -H 'content-type: application/json' \
   -H "${AUTH_HEADER}" \
   --data '{"first_name": "CUSTOMER", "last_name": "CUSTOMER", "email": "customer@mail.com", "address": "ADDRESS", "gender": "Male"}' \
-  --url 'http://localhost:8000/v1/customer'
+  --url "http://localhost:8000/v1/customer"
 # {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # get all customers
 curl --silent -X GET \
   -H 'content-type: application/json' \
   -H "${AUTH_HEADER}" \
-  --url 'http://localhost:8000/v1/customer?page=0&size=50'
+  --url "http://localhost:8000/v1/customer?page=0&size=50"
 # [{"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","links":[{"rel":"self","href":"http://localhost:8000/v1/customer/1"}]}]
 
 # get customer by ID
 curl --silent -X GET \
   -H 'content-type: application/json' \
   -H "${AUTH_HEADER}" \
-  --url 'http://localhost:8000/v1/customer/1'
+  --url "http://localhost:8000/v1/customer/1"
 # {"id":1,"first_name":"CUSTOMER","last_name":"CUSTOMER","email":"customer@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # check on Database
@@ -112,13 +122,13 @@ curl --silent -X PUT \
   -H 'content-type: application/json' \
   -H "${AUTH_HEADER}" \
   --data '{"first_name": "CUSTOMER_CHANGED", "last_name": "CUSTOMER_CHANGED", "email": "customer_changed@mail.com", "address": "ADDRESS", "gender": "Male"}' \
-  --url 'http://localhost:8000/v1/customer/1'
+  --url "http://localhost:8000/v1/customer/1"
 # {"id":1,"first_name":"CUSTOMER_CHANGED","last_name":"CUSTOMER_CHANGED","email":"customer_changed@mail.com","address":"ADDRESS","gender":"Male","_links":{"self":{"href":"http://localhost:8000/v1/customer/1"}}}
 
 # delete customer
 curl --silent -X DELETE \
   -H 'content-type: application/json' \
   -H "${AUTH_HEADER}" \
-  -I --url 'http://localhost:8000/v1/customer/1'
+  -I --url "http://localhost:8000/v1/customer/1"
 # HTTP/1.1 204
 ```

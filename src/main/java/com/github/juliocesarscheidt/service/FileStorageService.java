@@ -1,20 +1,18 @@
 package com.github.juliocesarscheidt.service;
 
+import com.github.juliocesarscheidt.config.FileStorageConfig;
+import com.github.juliocesarscheidt.exception.FileNotFoundException;
+import com.github.juliocesarscheidt.exception.FileStorageException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.util.StringUtils;
-
-import com.github.juliocesarscheidt.config.FileStorageConfig;
-import com.github.juliocesarscheidt.exception.FileNotFoundException;
-import com.github.juliocesarscheidt.exception.FileStorageException;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class FileStorageService extends BaseService {
@@ -23,8 +21,8 @@ public class FileStorageService extends BaseService {
 
   @Autowired
   public FileStorageService(FileStorageConfig fileStorageConfig) {
-    this.fileStorageLocation = Paths.get(fileStorageConfig.getUploadDir())
-      .toAbsolutePath().normalize();
+    this.fileStorageLocation =
+        Paths.get(fileStorageConfig.getUploadDir()).toAbsolutePath().normalize();
     System.out.println("fileStorageLocation" + fileStorageLocation);
 
     try {

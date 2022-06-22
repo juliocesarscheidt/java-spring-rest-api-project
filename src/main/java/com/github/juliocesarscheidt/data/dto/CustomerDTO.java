@@ -1,15 +1,24 @@
 package com.github.juliocesarscheidt.data.dto;
 
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-import org.springframework.hateoas.RepresentationModel;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.github.dozermapper.core.Mapping;
+import java.io.Serializable;
+import java.sql.Timestamp;
+import org.springframework.hateoas.RepresentationModel;
 
-@JsonPropertyOrder({"id", "first_name", "last_name", "email", "address", "gender", "enabled", "created_at", "updated_at", "deleted_at"})
+@JsonPropertyOrder({
+  "id",
+  "first_name",
+  "last_name",
+  "email",
+  "address",
+  "gender",
+  "enabled",
+  "created_at",
+  "updated_at",
+  "deleted_at"
+})
 public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -144,78 +153,71 @@ public class CustomerDTO extends RepresentationModel<CustomerDTO> implements Ser
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (!super.equals(obj))
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (!super.equals(obj)) return false;
+    if (getClass() != obj.getClass()) return false;
     CustomerDTO other = (CustomerDTO) obj;
     if (address == null) {
-      if (other.address != null)
-        return false;
-    } else if (!address.equals(other.address))
-      return false;
+      if (other.address != null) return false;
+    } else if (!address.equals(other.address)) return false;
     if (createdAt == null) {
-      if (other.createdAt != null)
-        return false;
-    } else if (!createdAt.equals(other.createdAt))
-      return false;
+      if (other.createdAt != null) return false;
+    } else if (!createdAt.equals(other.createdAt)) return false;
     if (deletedAt == null) {
-      if (other.deletedAt != null)
-        return false;
-    } else if (!deletedAt.equals(other.deletedAt))
-      return false;
+      if (other.deletedAt != null) return false;
+    } else if (!deletedAt.equals(other.deletedAt)) return false;
     if (email == null) {
-      if (other.email != null)
-        return false;
-    } else if (!email.equals(other.email))
-      return false;
+      if (other.email != null) return false;
+    } else if (!email.equals(other.email)) return false;
     if (enabled == null) {
-      if (other.enabled != null)
-        return false;
-    } else if (!enabled.equals(other.enabled))
-      return false;
+      if (other.enabled != null) return false;
+    } else if (!enabled.equals(other.enabled)) return false;
     if (firstName == null) {
-      if (other.firstName != null)
-        return false;
-    } else if (!firstName.equals(other.firstName))
-      return false;
+      if (other.firstName != null) return false;
+    } else if (!firstName.equals(other.firstName)) return false;
     if (gender == null) {
-      if (other.gender != null)
-        return false;
-    } else if (!gender.equals(other.gender))
-      return false;
+      if (other.gender != null) return false;
+    } else if (!gender.equals(other.gender)) return false;
     if (lastName == null) {
-      if (other.lastName != null)
-        return false;
-    } else if (!lastName.equals(other.lastName))
-      return false;
+      if (other.lastName != null) return false;
+    } else if (!lastName.equals(other.lastName)) return false;
     if (uniqueId == null) {
-      if (other.uniqueId != null)
-        return false;
-    } else if (!uniqueId.equals(other.uniqueId))
-      return false;
+      if (other.uniqueId != null) return false;
+    } else if (!uniqueId.equals(other.uniqueId)) return false;
     if (updatedAt == null) {
-      if (other.updatedAt != null)
-        return false;
-    } else if (!updatedAt.equals(other.updatedAt))
-      return false;
+      if (other.updatedAt != null) return false;
+    } else if (!updatedAt.equals(other.updatedAt)) return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "CustomerDTO [uniqueId=" + uniqueId + ", firstName=" + firstName + ", lastName=" + lastName + ", email="
-      + email + ", address=" + address + ", gender=" + gender + ", enabled=" + enabled + ", createdAt="
-      + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+    return "CustomerDTO [uniqueId="
+        + uniqueId
+        + ", firstName="
+        + firstName
+        + ", lastName="
+        + lastName
+        + ", email="
+        + email
+        + ", address="
+        + address
+        + ", gender="
+        + gender
+        + ", enabled="
+        + enabled
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", deletedAt="
+        + deletedAt
+        + "]";
   }
 
   public Boolean validate() {
     if (this.getGender() != null
-      && (!this.getGender().equals("Male")
-      && !this.getGender().equals("Female"))
-    ) {
+        && (!this.getGender().equals("Male") && !this.getGender().equals("Female"))) {
       return false;
     }
     return true;

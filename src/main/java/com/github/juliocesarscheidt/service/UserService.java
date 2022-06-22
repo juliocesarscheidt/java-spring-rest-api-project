@@ -1,17 +1,15 @@
 package com.github.juliocesarscheidt.service;
 
+import com.github.juliocesarscheidt.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.github.juliocesarscheidt.repository.UserRepository;
-
 @Service
 public class UserService extends BaseService implements UserDetailsService {
-  @Autowired
-  UserRepository repository;
+  @Autowired UserRepository repository;
 
   public UserService(UserRepository repository) {
     this.repository = repository;

@@ -3,7 +3,6 @@ package com.github.juliocesarscheidt.data.entity;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,20 +13,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="book")
+@Table(name = "book")
 public class Book implements Serializable {
 
   private static final long serialVersionUID = 1L;
 
   // data mapping
   @Id
-  @GeneratedValue(strategy=GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Column(nullable = false, length = 255)
   private String author;
 
-  @Column(name="launch_date", nullable = false, length = 80)
+  @Column(name = "launch_date", nullable = false, length = 80)
   @Temporal(TemporalType.DATE)
   private Date launchDate;
 
@@ -37,13 +36,13 @@ public class Book implements Serializable {
   @Column(nullable = true, length = 255)
   private String title;
 
-  @Column(name="created_at", nullable = false)
+  @Column(name = "created_at", nullable = false)
   private Timestamp createdAt;
 
-  @Column(name="updated_at", nullable = true)
+  @Column(name = "updated_at", nullable = true)
   private Timestamp updatedAt;
 
-  @Column(name="deleted_at", nullable = true)
+  @Column(name = "deleted_at", nullable = true)
   private Timestamp deletedAt;
 
   // constructor
@@ -127,44 +126,46 @@ public class Book implements Serializable {
 
   @Override
   public boolean equals(Object obj) {
-    if (this == obj)
-      return true;
-    if (obj == null)
-      return false;
-    if (getClass() != obj.getClass())
-      return false;
+    if (this == obj) return true;
+    if (obj == null) return false;
+    if (getClass() != obj.getClass()) return false;
     Book other = (Book) obj;
     if (author == null) {
-      if (other.author != null)
-        return false;
-    } else if (!author.equals(other.author))
-      return false;
+      if (other.author != null) return false;
+    } else if (!author.equals(other.author)) return false;
     if (id == null) {
-      if (other.id != null)
-        return false;
-    } else if (!id.equals(other.id))
-      return false;
+      if (other.id != null) return false;
+    } else if (!id.equals(other.id)) return false;
     if (launchDate == null) {
-      if (other.launchDate != null)
-        return false;
-    } else if (!launchDate.equals(other.launchDate))
-      return false;
+      if (other.launchDate != null) return false;
+    } else if (!launchDate.equals(other.launchDate)) return false;
     if (price == null) {
-      if (other.price != null)
-        return false;
-    } else if (!price.equals(other.price))
-      return false;
+      if (other.price != null) return false;
+    } else if (!price.equals(other.price)) return false;
     if (title == null) {
-      if (other.title != null)
-        return false;
-    } else if (!title.equals(other.title))
-      return false;
+      if (other.title != null) return false;
+    } else if (!title.equals(other.title)) return false;
     return true;
   }
 
   @Override
   public String toString() {
-    return "Book [id=" + id + ", author=" + author + ", launchDate=" + launchDate + ", price=" + price + ", title="
-      + title + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", deletedAt=" + deletedAt + "]";
+    return "Book [id="
+        + id
+        + ", author="
+        + author
+        + ", launchDate="
+        + launchDate
+        + ", price="
+        + price
+        + ", title="
+        + title
+        + ", createdAt="
+        + createdAt
+        + ", updatedAt="
+        + updatedAt
+        + ", deletedAt="
+        + deletedAt
+        + "]";
   }
 }
