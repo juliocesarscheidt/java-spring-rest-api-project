@@ -49,6 +49,7 @@ mvn clean package spring-boot:run
 
 ```bash
 mvn com.spotify.fmt:fmt-maven-plugin:format
+mvn com.spotify.fmt:fmt-maven-plugin:format -Dverbose=true
 ```
 
 ## Usage
